@@ -1,7 +1,7 @@
 #include "Meteor.h"
 
-Meteor::Meteor(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Meteor::Meteor(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 

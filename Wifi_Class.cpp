@@ -5,7 +5,6 @@ char Wifi_Class::incoming_packet[255];  // buffer for incoming packets
 char Wifi_Class::reply_packet[255];  // a reply string to send back
 
 int Wifi_Class::udpPort = 33333;
-Animation_Controller* Wifi_Class::ani_controller;
 
 bool Wifi_Class::connected = false;
 bool Wifi_Class::timeout = false;
@@ -47,7 +46,7 @@ void Wifi_Class::WiFiEvent(WiFiEvent_t event) {
 	END;
 }
 
-void Wifi_Class::connectToWiFi()
+void Wifi_Class::start_wifi()
 {
 	Serial.println("Connecting to WiFi network: " + String(ssid));
 
@@ -86,13 +85,6 @@ void Wifi_Class::connectToWiFi()
 	}
 
 	WiFi.setSleep(false);
-}
-
-void Wifi_Class::start_wifi(Animation_Controller* new_ani_controller)
-{
-	ani_controller = new_ani_controller;
-
-	connectToWiFi();
 }
 
 void Wifi_Class::get_udp_input()
@@ -229,7 +221,7 @@ void Wifi_Class::get_udp_input()
 	{
 		if (millis() > try_again_time && connected == false)
 		{
-			connectToWiFi();
+			start_wifi();
 		}
 	}
 }

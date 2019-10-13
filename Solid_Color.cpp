@@ -1,7 +1,7 @@
 #include "Solid_Color.h"
 
-Solid_Color::Solid_Color(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Solid_Color::Solid_Color(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 

@@ -1,16 +1,10 @@
 #include "Animation_Controller.h"
 
-Animation_Controller::Animation_Controller(LED_Fixture* new_fixture)
-	:fixture(new_fixture)
+Animation_Controller::Animation_Controller()
 {
 	START;
 
-	transition_type = _tt_Fade;
-	transitioning = false;
-	transition_total_time = 4000;
-	transition_start_time = 0;
-
-	fixture->print_arrangement_info(_sdm_Default);
+	LED_Fixture::print_arrangement_info(_sdm_Default);
 
 	start_animation();
 
@@ -19,15 +13,6 @@ Animation_Controller::Animation_Controller(LED_Fixture* new_fixture)
 	MEM;
 	END;
 }
-
-Animation_Controller Animation_Controller::create(LED_Fixture* new_fixture)
-{
-	START;
-	END;
-
-	return Animation_Controller(new_fixture);
-}
-
 
 void Animation_Controller::print_info()
 {
@@ -48,9 +33,9 @@ void Animation_Controller::run()
 		//change_animation(Animation_Name(random8(0,NUM_AUTOPLAY_ANIMATIONS)));
 	}
 
-	if (transitioning)
+	if (Transition::active)
 	{
-		if(millis() - transition_start_time > transition_total_time)
+		if(millis() - Transition::start_time > Transition::total_time)
 		{
 			delete current_animation;
 
@@ -58,7 +43,7 @@ void Animation_Controller::run()
 
 			next_animation = nullptr;
 
-			transitioning =  false;
+			Transition::active =  false;
 		}
 		else
 		{
@@ -77,9 +62,7 @@ void Animation_Controller::start_animation()
 {
 	START;
 
-	//delete current_animation;
-
-	current_animation = Animation::create(_Default, fixture);
+	current_animation = Animation::create(_Default);
 
 	END;
 }
@@ -88,48 +71,18 @@ void Animation_Controller::change_animation(Animation_Name new_animation_name)
 {
 	START;
 
-	if (transitioning)
+	if (Transition::active)
 	{
 		delete current_animation;
 
 		current_animation = next_animation;
 
 		next_animation = nullptr;
-
-		transitioning = false;
 	}
 
-	transitioning = true;
+	next_animation = Animation::create(new_animation_name);
 
-	Serial.println(transition_type);
-
-	temp_trans_type = transition_type == _tt_Random ? Transition_Type(random(0, 4)) : transition_type;
-
-	// ^^^ BETTER CODE ^^^
-	//if (transition_type == _tt_Random)
-	//{
-	//	temp_trans_type = Transition_Type(random(0, 4));
-	//}
-	//else
-	//{
-	//	temp_trans_type = transition_type;
-	//}
-
-	transition_start_time = millis();
-
-	next_animation = Animation::create(new_animation_name, fixture);
-
-	if (temp_trans_type == _tt_Dissolve || temp_trans_type == _tt_Wipe)
-	{
-		mask = new bool[current_animation->num_leds];
-		num_tDissolved = 0;
-
-		for (int i = 0; i < current_animation->num_leds; i++)
-		{
-			mask[i] = false;
-		}
-	}
-
+	Transition::start();
 
 	END;
 }
@@ -175,7 +128,7 @@ void Animation_Controller::erase_prev_frame()
 {
 	START;
 
-	fixture->g_leds.fill_solid(CRGB::Black);
+	LED_Fixture::black_out();
 
 	END;
 }
@@ -185,21 +138,21 @@ void Animation_Controller::show()
 {
 	START;
 
-	if (transitioning)
+	if (Transition::active)
 	{
-		switch (temp_trans_type)
+		switch (Transition::temp_type)
 		{
 		case _tt_Fade:
-			transition_Fade();
+			Transition::fade(current_animation, next_animation);
 			break;
 		case _tt_Wipe:
-			transition_Wipe();
+			Transition::wipe(current_animation, next_animation);
 			break;
 		case _tt_Dissolve:
-			transition_Dissolve();
+			Transition::dissolve(current_animation, next_animation);
 			break;
 		default:
-			transition_Fade();
+			Transition::fade(current_animation, next_animation);
 		}
 	}
 	else
@@ -238,178 +191,5 @@ void Animation_Controller::show()
 
 void Animation_Controller::set_transition(Transition_Type new_transition_type)
 {
-	transition_type = new_transition_type;
-}
-
-void Animation_Controller::transition_Fade()
-{
-	START;
-
-	int cur_led_num = 0;
-
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
-
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
-
-	float ratio = (float)(transition_total_time - (millis() - transition_start_time)) / transition_total_time;
-
-	if (ratio < 0)
-	{
-		ratio = 0;
-	}
-
-	for (auto& group : current_animation->arrangement->led_groups)
-	{
-
-		for (auto& arr_led_set : group->leds)
-		{
-			int i = 0;
-
-			for (auto& led : *arr_led_set)
-			{
-				led = next_animation->leds[cur_led_num + i].nscale8_video(255 * (1 - ratio));
-				led += current_animation->leds[cur_led_num + i].nscale8_video(255 * ratio);
-
-				i++;
-			}
-		}
-		cur_led_num += group->size;
-	}
-
-	END;
-}
-
-void Animation_Controller::transition_Wipe()
-{
-	int cur_led_num = 0;
-
-	int cur_group_num = 0;
-
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
-
-
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
-
-	float ratio = (float)(transition_total_time - (millis() - transition_start_time)) / transition_total_time;
-
-	if (ratio < 0)
-	{
-		ratio = 0;
-	}
-
-	for (auto& group : current_animation->arrangement->led_groups)
-	{
-		for (auto& arr_led_set : group->leds)
-		{
-			int i = 0;
-
-			for (auto& led : *arr_led_set)
-			{
-				if (i < abs(arr_led_set->len) * (1 - ratio))
-				{
-					led = next_animation->leds[cur_led_num + i];
-				}
-				else
-				{
-					led = current_animation->leds[cur_led_num + i];
-				}
-
-				i++;
-			}
-		}
-		cur_led_num += group->size;
-	}
-}
-
-void Animation_Controller::transition_Dissolve()
-{
-	START;
-
-	int cur_led_num = 0;
-
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
-
-
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
-
-
-	float ratio = (float)(transition_total_time - (millis() - transition_start_time)) / transition_total_time;
-
-	ratio = (float)((float)ease16InOutQuad(int((float)UINT16_MAX * ratio)) / (float)UINT16_MAX);
-
-	int new_num_tDissolved = current_animation->num_leds * (1 - ratio);
-
-	while (new_num_tDissolved > num_tDissolved)
-	{
-		int index = random(0, current_animation->num_leds - 1);
-
-		//Serial.println(num_tDissolved);
-
-		if (mask[index])
-		{
-			//Serial.println(index);
-
-			if (random(0, 2))
-			{
-				
-				while (mask[index])
-				{
-					index++;
-
-					if (index >= current_animation->num_leds)
-					{
-						index = 0;
-					}
-				}
-			}
-			else
-			{
-				
-				while (mask[index])
-				{
-					index--;
-
-					if (index < 0)
-					{
-						index = current_animation->num_leds - 1;
-					}
-				}
-			}
-			
-		}
-		
-		mask[index] = true;
-		
-		num_tDissolved++;
-	}
-
-	for (auto& group : current_animation->arrangement->led_groups)
-	{
-		for (auto& arr_led_set : group->leds)
-		{
-			int i = 0;
-
-			for (auto& led : *arr_led_set)
-			{
-				if (mask[i])
-				{
-					led = next_animation->leds[cur_led_num + i];
-				}
-				else
-				{
-					led = current_animation->leds[cur_led_num + i];
-				}
-				i++;
-			}
-		}
-		cur_led_num += group->size;
-	}
-
-	END;
+	Transition::type = new_transition_type;
 }

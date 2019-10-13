@@ -1,7 +1,7 @@
 #include "Sinelon.h"
 
-Sinelon::Sinelon(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Sinelon::Sinelon(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 

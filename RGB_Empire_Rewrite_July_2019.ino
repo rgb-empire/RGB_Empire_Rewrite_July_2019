@@ -1,11 +1,3 @@
-// Visual Micro is in vMicro>General>Tutorial Mode
-// 
-/*
-    Name:       RGB_Empire_Rewrite_July_2019.ino
-    Created:	7/8/2019 4:56:08 PM
-    Author:     DESKTOP-UV9PIGM\pikipupiba
-*/
-
 //**********************//
 //	Helper Files		//
 //**********************//
@@ -19,6 +11,7 @@
 
 // Create the pointer to our controller
 Controller* controller;
+Animation_Controller* animation_controller;
 
 // The setup() function runs once each time the micro-controller starts
 void setup()
@@ -36,11 +29,11 @@ void setup()
 	// Create the controller object
 	// It initializes everything based on the values in Fixture_Parameters.h
 	controller = new Controller();
+	animation_controller = new Animation_Controller();
 
 	MEM;
 	END;
 }
-
 
 void loop()
 {
@@ -48,9 +41,7 @@ void loop()
 
 	controller->run();
 
-	// Obsolete ever since I discovered FastLED.getFPS()
-	//BUG1(Bug::fps(500, 5));
+	animation_controller->run();
 
 	END;
-
 }

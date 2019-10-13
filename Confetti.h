@@ -25,7 +25,7 @@ protected:
 	const Animation_Name name = _Confetti;
 
 public:
-	Confetti(LED_Fixture* new_fixture, LED_Group* new_group);
+	Confetti(LED_Group* new_group);
 
 	// Only define the functions you need the animation to use.
 	// Otherwise the default functions in the Animation class are used.

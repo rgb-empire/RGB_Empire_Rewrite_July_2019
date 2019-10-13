@@ -129,9 +129,6 @@
     <ClInclude Include="Wifi_Class.h">
       <Filter>5. Input and Output</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
-      <Filter>DO NOT TOUCH</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>DO NOT TOUCH</Filter>
     </ClInclude>
@@ -143,6 +140,12 @@
     </ClInclude>
     <ClInclude Include="Confetti.h">
       <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Confetti.cpp">
       <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

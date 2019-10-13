@@ -8,6 +8,7 @@
 #include "My_Enums.h"
 #include "LED_Fixture.h"
 #include "Animation.h"
+#include "Transition.h"
 
 // Factory method gets rid of all of this.
 // Would still like a dynamically built list of animations, however.
@@ -27,25 +28,13 @@
 // Create array of those structs to select an animation object from.
 //static std::vector<Animation_Class_And_Name> animation_list;
 
-
 class Animation_Controller
 {
 private:
-	LED_Fixture* fixture;
-
 	Animation* current_animation;
 	Animation* next_animation;
 
 	int same_group_offset;
-
-	Transition_Type transition_type;
-	Transition_Type temp_trans_type;
-	bool transitioning;
-	int transition_total_time;
-	long transition_start_time;
-
-	bool* mask;
-	int num_tDissolved;
 
 	// All speeds will be scaled as though they were running at this rate.
 	// For example, if an animation is currently running at 200 fps, all speeds are cut in half.
@@ -55,9 +44,7 @@ private:
 	friend class Wifi_Class;
 
 public:
-	Animation_Controller(LED_Fixture* new_fixture);
-
-	static Animation_Controller create(LED_Fixture* new_fixture);
+	Animation_Controller();
 
 	void print_info();
 
@@ -72,10 +59,4 @@ public:
 	void show();
 
 	void set_transition(Transition_Type new_transition_type);
-
-	void transition_Fade();
-
-	void transition_Wipe();
-
-	void transition_Dissolve();
 };

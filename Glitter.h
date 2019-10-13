@@ -9,7 +9,7 @@ protected:
 	const Animation_Name name = _Glitter;
 
 public:
-	Glitter(LED_Fixture* new_fixture, LED_Group* new_group);
+	Glitter(LED_Group* new_group);
 
 	void erase_previous_frame();
 

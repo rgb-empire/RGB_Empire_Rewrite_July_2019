@@ -34,7 +34,6 @@
 class Animation
 {
  protected:
-
 	// Every animation should have a unique name.
 	// "Base" is t he name of the interface.
 	Animation_Name name;
@@ -46,9 +45,6 @@ class Animation
 	// Vector to contain any other animation objects this one creates.
 	std::vector<Animation*> animations;
 
-	// A pointer to the fixture object that contains all necessary information about the LEDs.
-	LED_Fixture* fixture;
-
 	LED_Arrangement* arrangement;
 
 	LED_Group* group;
@@ -59,22 +55,22 @@ class Animation
 	CRGB* leds;
 	CRGBSet* led_set;
 
-
 	friend class Animation_Controller;
 	friend class Wifi_Class;
+	friend class Transition;
 
  public:
 	 // A struct that contains all the variables associated with the animation.
 	 Animation_Variables vars;
 
-	Animation(Animation_Name new_animation_name, LED_Fixture* new_fixture);
-	Animation(LED_Fixture* new_fixture);
-	Animation(LED_Fixture* new_fixture, LED_Group* new_group);
+	Animation(Animation_Name new_animation_name);
+	Animation();
+	Animation(LED_Group* new_group);
 
-	static Animation* create(Animation_Name new_animation_name, LED_Fixture* new_fixture);
-	static Animation* create(Animation_Name new_animation_name, LED_Fixture* new_fixture, LED_Group* new_group);
+	static Animation* create(Animation_Name new_animation_name);
+	static Animation* create(Animation_Name new_animation_name, LED_Group* new_group);
 
-	void add_aniamtion(Animation_Name new_animation_name, LED_Fixture* new_fixture, LED_Group* new_group);
+	void add_aniamtion(Animation_Name new_animation_name, LED_Group* new_group);
 
 	virtual ~Animation();
 

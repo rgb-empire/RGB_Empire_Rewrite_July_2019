@@ -39,8 +39,8 @@
 //	END;
 //}
 
-Crazy_Time::Crazy_Time(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Crazy_Time::Crazy_Time(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 

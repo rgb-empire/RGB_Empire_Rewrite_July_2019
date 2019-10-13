@@ -4,6 +4,12 @@
 
 #include "LED_Fixture.h"
 
+Fixture_Parameters LED_Fixture::fixture_params = fixture_parameters;
+Fixture_Display_Mode LED_Fixture::fixture_display_mode = _fdm_Default;
+Shape LED_Fixture::shape;
+CRGBArray<fixture_parameters.total_num_leds> LED_Fixture::g_leds;
+std::vector<LED_Strip> LED_Fixture::led_strips;
+
 int fixture_num_leds = 0;
 
 //**********************//
@@ -31,7 +37,7 @@ void LED_Fixture::create_strips()
 
 void LED_Fixture::print_info()
 {
-	for (auto& strip: led_strips)
+	for (auto& strip : led_strips)
 	{
 		strip.print_info();
 	}
@@ -123,27 +129,32 @@ LED_Arrangement* LED_Fixture::make_arrangement()
 	return temp_arrangement;
 }
 
+void LED_Fixture::black_out()
+{
+	g_leds.fill_solid(CRGB::Black);
+}
+
 //**********************//
 //	Public Methods		//
 //**********************//
 
-LED_Fixture::LED_Fixture(Fixture_Parameters new_fixture_params)
-	:fixture_params(new_fixture_params),
-	fixture_display_mode(_fdm_Default)
-{
-	START;
+//LED_Fixture::LED_Fixture(Fixture_Parameters new_fixture_params)
+//	:fixture_params(new_fixture_params),
+//	fixture_display_mode(_fdm_Default)
+//{
+//	START;
+//
+//	create_strips();
+//
+//	//initilize_vars();
+//
+//	END;
+//
+//}
 
-	create_strips();
-
-	//initilize_vars();
-
-	END;
-
-}
-
-LED_Fixture::~LED_Fixture()
-{
-}
+//LED_Fixture::~LED_Fixture()
+//{
+//}
 
 
 void LED_Fixture::print_arrangement_info(Strip_Display_Mode new_display_mode)
@@ -169,14 +180,14 @@ void LED_Fixture::setStrip(int num_leds_so_far, int new_num_leds)
 template<int n>
 void LED_Fixture::stripLoop(int num_leds_so_far)
 {
-	setStrip<strip_parameters[n - 1].strip_pin>(num_leds_so_far, strip_parameters[n-1].num_leds);
+	setStrip<strip_parameters[n - 1].strip_pin>(num_leds_so_far, strip_parameters[n - 1].num_leds);
 	num_leds_so_far += strip_parameters[n - 1].num_leds;
 
 	led_strips.push_back(
 		LED_Strip
-		(n-1,
-		new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
-		strip_parameters[n-1])
+		(n - 1,
+			new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
+			strip_parameters[n - 1])
 	);
 
 	fixture_num_leds = num_leds_so_far;
@@ -186,4 +197,3 @@ void LED_Fixture::stripLoop(int num_leds_so_far)
 
 template<>
 void LED_Fixture::stripLoop<0>(int num_leds_so_far) {};
- 

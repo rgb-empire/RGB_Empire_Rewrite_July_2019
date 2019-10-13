@@ -10,7 +10,7 @@ protected:
 
 public:
 	//Crazy_Time(LED_Fixture* new_fixture);
-	Crazy_Time(LED_Fixture* new_fixture, LED_Group* new_group);
+	Crazy_Time(LED_Group* new_group);
 
 	void erase_previous_frame();
 

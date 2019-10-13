@@ -7,7 +7,7 @@ protected:
 	const Animation_Name name = _Mr_Poopy_Worm;
 
 public:
-	Mr_Poopy_Worm(LED_Fixture* new_fixture, LED_Group* new_group);
+	Mr_Poopy_Worm(LED_Group* new_group);
 
 	// Only define the functions you need the animation to use.
 	// Otherwise the default functions in the Animation class are used.

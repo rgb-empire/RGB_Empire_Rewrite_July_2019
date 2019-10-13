@@ -1,7 +1,7 @@
 #include "Glitter.h"
 
-Glitter::Glitter(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Glitter::Glitter(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 
@@ -15,7 +15,7 @@ void Glitter::erase_previous_frame()
 	START;
 
 	led_set->fadeToBlackBy(
-		vars(fade) * speed_scale_factor * speed_scale_factor_modifier > 255 ? 255 :
+		(vars(fade) * speed_scale_factor * speed_scale_factor_modifier) > 255 ? 255 :
 		vars(fade) * speed_scale_factor * speed_scale_factor_modifier
 	);
 
@@ -37,5 +37,3 @@ void Glitter::calculate_frame()
 
 	END;
 }
-
-

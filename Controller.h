@@ -34,8 +34,6 @@
 class Controller
 {
  protected:
-	 LED_Fixture fixture;						// The object containing all our LEDs.
-	 Animation_Controller animation_controller;	// The animation that is currently running.
 	 //Display display;							// The oled screen object.
 
 	 //Physical_Input physical_input;	// The object that interacts with the buttons.

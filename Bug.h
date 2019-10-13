@@ -20,6 +20,8 @@
 #ifndef _BUG_h
 #define _BUG_h
 
+//#include "StandardCplusplus.h"
+
 #include "Arduino.h"
 #include <vector>
 #include "FastLED.h"
@@ -216,4 +218,3 @@ inline void Bug::print(String new_string, int value)
 
 
 #endif
-

@@ -25,7 +25,7 @@ protected:
 	const Animation_Name name = _Multi_Meteor;
 
 public:
-	Multi_Meteor(LED_Fixture* new_fixture, LED_Group* new_group);
+	Multi_Meteor(LED_Group* new_group);
 
 	// Only define the functions you need the animation to use.
 	// Otherwise the default functions in the Animation class are used.

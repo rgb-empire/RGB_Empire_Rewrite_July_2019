@@ -47,9 +47,8 @@ void Animation::erase_previous_frame()
 	END;
 }
 
-Animation::Animation(Animation_Name new_animation_name, LED_Fixture* new_fixture)
-	:fixture(new_fixture),
-	arrangement(fixture->make_arrangement(_fdm_Seperate)),
+Animation::Animation(Animation_Name new_animation_name)
+	:arrangement(LED_Fixture::make_arrangement(_fdm_Seperate)),
 	num_leds(arrangement->size),
 	leds(new CRGB[num_leds]),
 	led_set(new CRGBSet(leds, num_leds)),
@@ -59,7 +58,7 @@ Animation::Animation(Animation_Name new_animation_name, LED_Fixture* new_fixture
 
 	for (auto& group : arrangement->led_groups)
 	{
-		animations.push_back(create(new_animation_name, new_fixture, group));
+		animations.push_back(create(new_animation_name, group));
 	}
 
 
@@ -70,9 +69,8 @@ Animation::Animation(Animation_Name new_animation_name, LED_Fixture* new_fixture
 	MEM;
 }
 
-Animation::Animation(LED_Fixture* new_fixture)
-	:fixture(new_fixture),
-	arrangement(fixture->make_arrangement()),
+Animation::Animation()
+	:arrangement(LED_Fixture::make_arrangement()),
 	num_leds(arrangement->size),
 	leds(new CRGB[num_leds]),
 	led_set(new CRGBSet(leds, num_leds)),
@@ -90,9 +88,8 @@ Animation::Animation(LED_Fixture* new_fixture)
 	END;
 }
 
-Animation::Animation(LED_Fixture* new_fixture, LED_Group* new_group)
-	:fixture(new_fixture),
-	arrangement(new LED_Arrangement(_sdm_Default)),
+Animation::Animation(LED_Group* new_group)
+	:arrangement(new LED_Arrangement(_sdm_Default)),
 	num_leds(new_group->size),
 	leds(new CRGB[num_leds]),
 	led_set(new CRGBSet(leds, num_leds)),
@@ -106,7 +103,7 @@ Animation::Animation(LED_Fixture* new_fixture, LED_Group* new_group)
 }
 
 
-Animation* Animation::create(Animation_Name new_animation_name, LED_Fixture* new_fixture)
+Animation* Animation::create(Animation_Name new_animation_name)
 {
 	START;
 
@@ -114,7 +111,7 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Fixture* new
 
 	//if (new_animation_name != _Artnet)
 	//{
-		return new Animation(new_animation_name, new_fixture);
+		return new Animation(new_animation_name);
 	//}
 	//else
 	//{
@@ -151,7 +148,7 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Fixture* new
 		//}
 }
 
-Animation* Animation::create(Animation_Name new_animation_name, LED_Fixture* new_fixture, LED_Group* new_group)
+Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_group)
 {
 	START;
 	
@@ -165,40 +162,40 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Fixture* new
 	switch (new_animation_name)
 	{
 	case _Default:
-		return new Mr_Poopy_Worm(new_fixture, new_group);
+		return new Mr_Poopy_Worm(new_group);
 	case _Rainbow_Wave:
-		return new Rainbow_Wave(new_fixture, new_group);
+		return new Rainbow_Wave(new_group);
 	case _Glitter:
-		return new Glitter(new_fixture, new_group);
+		return new Glitter(new_group);
 	case _Rainbow_Wave_With_Glitter:
-		return new Rainbow_Wave_With_Glitter(new_fixture, new_group);
+		return new Rainbow_Wave_With_Glitter(new_group);
 		//case _Random_Rainbow_Wave:			return new Random_Rainbow_Wave;
 	case _Sinelon:
-		return new Sinelon(new_fixture, new_group);
+		return new Sinelon(new_group);
 	case _Mr_Poopy_Worm:
-		return new Mr_Poopy_Worm(new_fixture, new_group);
+		return new Mr_Poopy_Worm(new_group);
 	case _Solid_Color:
-		return new Solid_Color(new_fixture, new_group);
+		return new Solid_Color(new_group);
 	case _Meteor:
-		return new Meteor(new_fixture, new_group);
+		return new Meteor(new_group);
 	case _Multi_Meteor:
-		return new Multi_Meteor(new_fixture, new_group);
+		return new Multi_Meteor(new_group);
 	case _Wave:
-		return new Wave(new_fixture, new_group);
+		return new Wave(new_group);
 	case _Crazy_Time:
-		return new Crazy_Time(new_fixture, new_group);
+		return new Crazy_Time(new_group);
 	case _Confetti:
-		return new Confetti(new_fixture, new_group);
+		return new Confetti(new_group);
 	case _Color_Waves:
-		return new Color_Waves(new_fixture, new_group);
+		return new Color_Waves(new_group);
 	case _Artnet:
-		return new Artnet(new_fixture, new_group);
+		return new Artnet(new_group);
 	default:
-		return new Crazy_Time(new_fixture, new_group);
+		return new Crazy_Time(new_group);
 	}
 }
 
-void Animation::add_aniamtion(Animation_Name new_animation_name, LED_Fixture* new_fixture, LED_Group* new_group)
+void Animation::add_aniamtion(Animation_Name new_animation_name, LED_Group* new_group)
 {
 
 }

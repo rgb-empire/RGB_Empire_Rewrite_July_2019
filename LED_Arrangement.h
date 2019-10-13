@@ -7,7 +7,7 @@
 
 class LED_Arrangement
 {
-protected:
+public:
 	Strip_Display_Mode strip_display_mode;	// Display modes represent different ways to run animations on a given set of leds.
 
 	std::vector<LED_Group*> led_groups;		// Each arrangement contains 1 or more groups.
@@ -16,14 +16,6 @@ protected:
 
 	int size; // Size represents the total number of pixels an animation must generate.
 
-
-	friend class LED_Arrangements;
-	friend class Animation_Controller;
-	friend class Animation;
-	friend class LED_Fixture;
-	friend class LED_Strip;
-
-public:
 	LED_Arrangement(Strip_Display_Mode new_strip_display_mode);
 
 	void add(LED_Group* new_led_group);

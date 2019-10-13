@@ -5,25 +5,24 @@
 #include "Controller.h"
 #include "Tasks.h"
 
-Controller::Controller():
-	fixture(LED_Fixture(fixture_parameters)),
-	animation_controller(Animation_Controller::create(&fixture))
-	//display(Display::create()),
+Controller::Controller()
+	//:display(Display::create()),
 	//physical_input(Physical_Input())
 {
 	START;
 
 	create_tasks();	// Start all the independently managed tasks.
 
+	LED_Fixture::create_strips();
+
 	// Print some info about the fixture and animation to make sure everything initialized correctly.
-	fixture.print_info();
-	animation_controller.print_info();
+	LED_Fixture::print_info();
 
 	//physical_input.check();	// TODO: implement this
 
 	if (Wifi_Class::connected == false)
 	{
-		Wifi_Class::start_wifi(&animation_controller);
+		Wifi_Class::start_wifi();
 	}
 
 	//wifi_input.connect();	// TODO: implement this
@@ -55,8 +54,6 @@ void Controller::run()
 	//}
 
 	//delay(20);
-
-	animation_controller.run();
 
 	FastLED_Show_ESP32();
 

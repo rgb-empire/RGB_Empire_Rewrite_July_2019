@@ -1,8 +1,8 @@
 #include "Rainbow_Wave.h"
 
 
-Rainbow_Wave::Rainbow_Wave(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Rainbow_Wave::Rainbow_Wave(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 	

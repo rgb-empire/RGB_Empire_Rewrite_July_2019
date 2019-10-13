@@ -30,7 +30,7 @@ protected:
 	static bool started;
 
 public:
-	Artnet(LED_Fixture* new_fixture, LED_Group* new_group);
+	Artnet(LED_Group* new_group);
 
 	void run();
 

@@ -54,8 +54,8 @@ int Artnet::previous_data_length = 0;
 //	return state;
 //}
 
-Artnet::Artnet(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group),
+Artnet::Artnet(LED_Group* new_group)
+	:Animation(new_group),
 	send_frame(1)
 {
 	START;

@@ -15,8 +15,6 @@ protected:
 	static char incoming_packet[255];  // buffer for incoming packets
 	static char  reply_packet[255];  // a reply string to send back
 
-	static Animation_Controller* ani_controller;
-
 	static int udpPort;
 
 	static bool timeout;
@@ -28,9 +26,7 @@ protected:
 public:
 	static bool connected;
 
-	static void start_wifi(Animation_Controller* new_ani_controller);
-
-	static void connectToWiFi();
+	static void start_wifi();
 
 	static void WiFiEvent(WiFiEvent_t event);
 

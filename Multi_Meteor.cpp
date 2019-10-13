@@ -1,7 +1,7 @@
 #include "Multi_Meteor.h"
 
-Multi_Meteor::Multi_Meteor(LED_Fixture* new_fixture, LED_Group* new_group)
-	:Animation(new_fixture, new_group)
+Multi_Meteor::Multi_Meteor(LED_Group* new_group)
+	:Animation(new_group)
 {
 	START;
 
@@ -9,7 +9,7 @@ Multi_Meteor::Multi_Meteor(LED_Fixture* new_fixture, LED_Group* new_group)
 
 	for (int i = 0; i < num_meteors; i++)
 	{
-		animations.push_back(Animation::create(_Meteor, fixture, new_group));
+		animations.push_back(Animation::create(_Meteor, new_group));
 	}
 
 	END;

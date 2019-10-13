@@ -84,20 +84,22 @@ enum Fixture_Display_Mode
 	_fdm_Every_Other_Sequential,
 };
 
-enum Transition_Type
-{
-	_tt_Fade,
-	_tt_Wipe,
-	_tt_Dissolve,
-	_tt_Random
-};
-
 enum Input_Type
 {
 	_it_Button,
 	_it_Encoder,
 	_it_Potentiometer,
 	_it_Switch
+};
+
+enum Transition_Type
+{
+	_tt_Fade,
+	_tt_Wipe,
+	_tt_Dissolve,
+	_tt_NUM_TRANSITIONS,
+	_tt_Cycle,
+	_tt_Random
 };
 
 // Use structs to make passing parameters into methods fast and easy.
