@@ -127,11 +127,11 @@ void Wifi_Class::get_udp_input()
 			}
 			else if (valueFromPacket.substring(0, 3) == "hue")
 			{
-				ani_controller->current_animation->change_var(hue, a_value, value);
+				Animation_Controller::current_animation->change_var(hue, a_value, value);
 			}
 			else if (valueFromPacket.substring(0, 3) == "hsp")
 			{
-				ani_controller->current_animation->change_var(hue, a_speed, (float)value / 60.0);
+				Animation_Controller::current_animation->change_var(hue, a_speed, (float)value / 60.0);
 			}
 			else if (valueFromPacket.substring(0, 3) == "off")
 			{
@@ -153,12 +153,12 @@ void Wifi_Class::get_udp_input()
 			}
 			else if (valueFromPacket.substring(0, 3) == "b04")
 			{
-				ani_controller->current_animation->change_var(hue, a_value,
-					int(ani_controller->current_animation->vars(hue, a_value)->value + 16) % 255);
+				Animation_Controller::current_animation->change_var(hue, a_value,
+					int(Animation_Controller::current_animation->vars(hue, a_value)->value + 16) % 255);
 			}
 			else if (valueFromPacket.substring(0, 3) == "b05")
 			{
-				ani_controller->current_animation->change_var(hue, a_value, random8());
+				Animation_Controller::current_animation->change_var(hue, a_value, random8());
 			}
 			else if (valueFromPacket.substring(0, 3) == "str")
 			{
@@ -171,7 +171,7 @@ void Wifi_Class::get_udp_input()
 			else if (valueFromPacket.substring(0, 3) == "b06")
 			{
 				//Serial.println(value);
-				ani_controller->set_transition(Transition_Type(value));
+				Animation_Controller::set_transition(Transition_Type(value));
 			}
 			else if (valueFromPacket.substring(0, 3) == "b07")
 			{
@@ -193,7 +193,7 @@ void Wifi_Class::get_udp_input()
 
 				if (Animation_Name(value % NUM_AUTOPLAY_ANIMATIONS) != current_ani)
 				{
-					ani_controller->change_animation(Animation_Name(value % NUM_AUTOPLAY_ANIMATIONS));
+					Animation_Controller::change_animation(Animation_Name(value % NUM_AUTOPLAY_ANIMATIONS));
 					current_ani = Animation_Name(value % NUM_AUTOPLAY_ANIMATIONS);
 				}
 			}
@@ -208,7 +208,7 @@ void Wifi_Class::get_udp_input()
 			}
 			else if (valueFromPacket.substring(0, 3) == "del")
 			{
-				ani_controller->transition_total_time = value * 40;
+				Transition::total_time = value * 40;
 				//universe.uSlowDelay = value;
 			}
 

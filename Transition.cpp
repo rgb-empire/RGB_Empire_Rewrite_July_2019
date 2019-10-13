@@ -76,6 +76,37 @@ void Transition::reset()
 	}
 }
 
+void Transition::none(Animation* current_animation)
+{
+	int cur_led_num = 0;
+
+	THING;
+
+	CRGB* current_next_frame = current_animation->next_frame();
+	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
+
+	THING;
+
+	for (auto& group : current_animation->arrangement->led_groups)
+	{
+		//P(group->group_number);
+		//P(group->size);
+
+		for (auto& arr_led_set : group->leds)
+		{
+			int i = 0;
+
+			//P(cur_led_num);
+
+			for (auto& led : *arr_led_set)
+			{
+				led = current_animation->leds[cur_led_num + i++];
+			}
+		}
+		cur_led_num += group->size;
+	}
+}
+
 void Transition::fade(Animation* current_animation, Animation* next_animation)
 {
 	START;

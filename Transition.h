@@ -26,14 +26,12 @@ protected:
 	static void start();
 	static void reset();
 
-	//static void none();
-
+	static void none(Animation* current_animation);
 	static void fade(Animation* current_animation, Animation* next_animation);
-
 	static void wipe(Animation* current_animation, Animation* next_animation);
-
 	static void dissolve(Animation* current_animation, Animation* next_animation);
 
 	friend class Animation_Controller;
+	friend class Wifi_Class;
 };
 

@@ -31,8 +31,8 @@
 class Animation_Controller
 {
 private:
-	Animation* current_animation;
-	Animation* next_animation;
+	static Animation* current_animation;
+	static Animation* next_animation;
 
 	int same_group_offset;
 
@@ -52,11 +52,11 @@ public:
 
 	void start_animation();
 
-	void change_animation(Animation_Name new_animation_name);
+	static void change_animation(Animation_Name new_animation_name);
 
 	void erase_prev_frame();
 
 	void show();
 
-	void set_transition(Transition_Type new_transition_type);
+	static void set_transition(Transition_Type new_transition_type);
 };
