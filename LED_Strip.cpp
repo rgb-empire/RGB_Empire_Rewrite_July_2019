@@ -80,12 +80,12 @@ void LED_Strip::print_arrangement_info(Strip_Display_Mode new_display_mode)
 {
 	START;
 
-	Serial.println("LED Arrangement Info for Strip #" + (String)strip_index);
+	//Serial.println("LED Arrangement Info for Strip #" + (String)strip_index);
 	
-	for (auto& arrangement : arrangements)
-	{
-		arrangement->print_info();
-	}
+	//for (auto& arrangement : arrangements)
+	//{
+	//	arrangement->print_info();
+	//}
 
 
 	END;

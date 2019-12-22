@@ -4,7 +4,7 @@ Animation_Variable::Animation_Variable(Variable_Name new_name, float new_value, 
 	:name(new_name),
 	eor(new_eor)
 {
-	START;
+	//START;
 
 	switch (eor)
 	{
@@ -34,7 +34,7 @@ Animation_Variable::Animation_Variable(Variable_Name new_name, float new_value, 
 		vars[a_offset] = Bounded_Variable(new_offset, -1000, 1000, _eor_Stop);
 	}
 
-	END;
+	//END;
 }
 
 Bounded_Variable* Animation_Variable::operator()(Animation_Variable_Name new_ani_var_name)

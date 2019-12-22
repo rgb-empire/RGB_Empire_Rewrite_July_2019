@@ -11,22 +11,27 @@
 #include <FastLED.h>
 #include "Bug.h"
 
-#define NUM_AUTOPLAY_ANIMATIONS 12
+#define NUM_AUTOPLAY_ANIMATIONS 11
 
 enum Animation_Name
 {
+	_Color_Waves,
+	_Confetti,
 	_Rainbow_Wave,
 	_Glitter,
 	_Rainbow_Wave_With_Glitter,
-	_Sinelon,
-	_Solid_Color,
-	_Meteor,
 	_Multi_Meteor,
 	_Wave,
+	_Boom,
+	_Boom_2,
+	_Rapid_Boom,
 	_Crazy_Time,
+
+	_Solid_Color,
+	_Meteor,
 	_Mr_Poopy_Worm,
-	_Color_Waves,
-	_Confetti,
+
+	_Sinelon,
 
 	_Artnet,
 

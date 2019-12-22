@@ -22,7 +22,7 @@ class Sinelon :
 	public Animation
 {
 protected:
-	const Animation_Name name = _Template_Animation;
+	const Animation_Name name = _Sinelon;
 
 	float start;
 	float end;

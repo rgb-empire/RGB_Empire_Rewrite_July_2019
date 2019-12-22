@@ -19,18 +19,19 @@ void Animation::update_vars()
 	vars.vars[density].update();
 	vars.vars[fade].update();
 
-	//if (vars.palette_cycle != 0)
-	//{
-	//	unsigned long now = millis();
+	if (vars.palette_cycle != 0)
+	{
+		unsigned long now = millis();
 
-	//	// abs() allows palette_cycle to be positive or negative0
-	//	if (now - vars.palette_last_time > abs(vars.palette_cycle))
-	//	{
-	//		vars.palette_next_ID = next(vars.palette_current_ID, vars.palette_cycle, vars.palette_mask);
-	//	}
-	//}
+		// abs() allows palette_cycle to be positive or negative0
+		if (now - vars.palette_last_time > abs(vars.palette_cycle))
+		{
+			vars.random_palette_fade();
+			vars.palette_last_time = now;
+		}
+	}
 
-	//nblendPaletteTowardPalette(vars.palette_current, vars.palette_next, vars.palette_cycle_speed);
+	nblendPaletteTowardPalette(vars.palette_current, vars.palette_next, vars.palette_cycle_speed);
 
 	//END;
 }
@@ -162,7 +163,7 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 	switch (new_animation_name)
 	{
 	case _Default:
-		return new Mr_Poopy_Worm(new_group);
+		return new Rapid_Boom(new_group);
 	case _Rainbow_Wave:
 		return new Rainbow_Wave(new_group);
 	case _Glitter:
@@ -188,6 +189,12 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 		return new Confetti(new_group);
 	case _Color_Waves:
 		return new Color_Waves(new_group);
+	case _Boom:
+		return new Boom(new_group);
+	case _Boom_2:
+		return new Boom_2(new_group);
+	case _Rapid_Boom:
+		return new Rapid_Boom(new_group);
 	case _Artnet:
 		return new Artnet(new_group);
 	default:
@@ -206,24 +213,24 @@ Animation::~Animation()
 
 	//print_info();
 
-	THING;
+	//THING;
 
 	for (auto& animation : animations)
 	{
 		delete animation;
 	}
 
-	THING;
+	//THING;
 
 	delete leds;
 
-	THING;
+	//THING;
 
 	delete led_set;
 
 	delete arrangement;
 
-	THING;
+	//THING;
 
 	//MEM;
 	END;
@@ -278,18 +285,18 @@ void Animation::run()
 
 	erase_previous_frame();
 
-	THING;
+	//THING;
 
 	update_vars();
 
-	THING;
+	//THING;
 
 	calculate_frame();
 
-	THING;
+	//THING;
 
 	for (auto& animation : animations) {
-		THING;
+		//THING;
 		animation->run();
 	}
 

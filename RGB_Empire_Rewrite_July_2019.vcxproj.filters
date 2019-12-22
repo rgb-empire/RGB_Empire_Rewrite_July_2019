@@ -144,6 +144,27 @@
     <ClInclude Include="Transition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Boom.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Boom_2.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Palette_Class.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Palette_Configuration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Palette_Collection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="My_Palettes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rapid_Boom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -246,6 +267,24 @@
       <Filter>4. Animations</Filter>
     </ClCompile>
     <ClCompile Include="Transition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boom.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Boom_2.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Palette_Class.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Palette_Configuration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Palette_Collection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rapid_Boom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

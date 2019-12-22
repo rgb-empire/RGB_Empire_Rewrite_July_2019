@@ -17,3 +17,23 @@
 //#include "My_Enums.h"
 //#include "LED_Fixture.h"
 //#include "Bug.h"
+
+class Template_Animation :
+	public Animation
+{
+protected:
+	const Animation_Name name = _Template_Animation;
+
+	float start;
+	float end;
+
+public:
+	Template_Animation(LED_Group* new_group);
+
+	// Only define the functions you need the animation to use.
+	// Otherwise the default functions in the Animation class are used.
+	//void run();
+	//void erase_prev_frame();
+	void update_vars();
+	void calculate_frame();
+};

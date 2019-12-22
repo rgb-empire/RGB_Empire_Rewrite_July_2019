@@ -12,5 +12,8 @@
 #include "Crazy_Time.h"
 #include "Confetti.h"
 #include "Color_Waves.h"
+#include "Boom.h"
+#include "Boom_2.h"
+#include "Rapid_Boom.h"
 
 #include "Artnet.h"

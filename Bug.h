@@ -11,7 +11,7 @@
 
 // Uncomment the following lines to enable debugging code.
 #define BUG_1	// Free memory after constructors and FPS.
-#define BUG_2	// Used to selectively enable certain macros.
+//#define BUG_2	// Used to selectively enable certain macros.
 //#define BUG_3	// 
 //#define BUG_4	// 
 
@@ -113,6 +113,8 @@ public:
 	static inline void print(String new_string, float value);
 
 	static inline void print(String new_string, int value);
+
+	static inline void check_memory();
 };
 
 inline void Bug::display_memory(String new_string)
@@ -147,12 +149,16 @@ inline void Bug::start(String new_string)
 	function_stack.push_back(n_and_t);
 	thing_stack.push_back(0);
 
-	for (int i = 0; i < function_stack.size() - 1; i++)
-	{
-		Serial.print("      ");
-	}
+	String string_me = "";
 
-	Serial.println("Starting " + new_string);
+		for (int i = 0; i < function_stack.size() - 1; i++)
+		{
+			string_me += "      ";
+		}
+
+		string_me += "Starting ";
+
+		Serial.println(string_me + new_string);
 
 	heap_caps_check_integrity_all(true);
 
@@ -166,18 +172,22 @@ inline int Bug::end(String new_string)
 
 	int function_time = millis() - n_and_t.start_time;
 
+	String string_me = "";
+
 	if (n_and_t.function_name.equals(new_string))
 	{
 
 		for (int i = 0; i < function_stack.size() - 1; i++)
 		{
-			Serial.print("      ");
+			string_me += "      ";
 		}
+
+		string_me += "Ending ";
 
 		function_stack.pop_back();
 		thing_stack.pop_back();
 
-		Serial.println("Ending " + n_and_t.function_name + " after " + (function_time)+" millis");
+		Serial.println(string_me + n_and_t.function_name + " after " + (function_time)+" millis");
 	}
 	else
 	{
@@ -198,12 +208,14 @@ inline void Bug::thing_counter(String new_string)
 
 	thing_stack.back()++;
 
+	String string_me = "";
+
 	for (int i = 0; i < thing_stack.size() - 1; i++)
 	{
-		Serial.print("      ");
+		string_me += "      ";
 	}
 
-	Serial.println("Thing #" + (String)thing_stack.back() + " in " + new_string);
+	Serial.println(string_me + "Thing #" + (String)thing_stack.back() + " in " + new_string);
 }
 
 inline void Bug::print(String new_string, float value)
@@ -216,5 +228,21 @@ inline void Bug::print(String new_string, int value)
 	Serial.println(new_string + ": " + String(value));
 }
 
+inline void Bug::check_memory() {
+
+	Serial.print("Memory remaining: ");
+
+	Serial.print((ESP.getFreeHeap() / 1024));
+
+	Serial.print(" KB  ");
+
+	Serial.print("and running at ");
+
+	Serial.print(FastLED.getFPS());
+
+	Serial.println(" FPS");
+
+	heap_caps_check_integrity_all(true);
+}
 
 #endif

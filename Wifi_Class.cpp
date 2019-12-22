@@ -16,6 +16,10 @@ long Wifi_Class::try_again_time = 0;
 char* Wifi_Class::ssid = "ESP_Master";
 char* Wifi_Class::password = "ESP_Secure_Password";
 
+//char* Wifi_Class::ssid = "Bill wi the science fi-2.4";
+//char* Wifi_Class::password = "3096605290";
+
+
 void Wifi_Class::WiFiEvent(WiFiEvent_t event) {
 
 	START;
@@ -111,13 +115,16 @@ void Wifi_Class::get_udp_input()
 			int value = valueFromPacket.substring(4, 7).toInt(); // positions 4, 5, and 6 (doesn't include 7)
 			// Use this to set the actual parameters, but for Serial.println() they need to be cast to Strings
 
+			String message = valueFromPacket.substring(0, 3);
 
-			if (valueFromPacket.substring(0, 3) == "brt")
+			Serial.println(valueFromPacket);
+
+			if (message == "brt")
 			{
 				FastLED.setBrightness(value);
 				//Serial.println("Brightness = " + String(value));
 			}
-			else if (valueFromPacket.substring(0, 3) == "spd")
+			else if (message == "spd")
 			{
 				//universe.ChangeSpeedFactor((float)value / 40);
 
@@ -125,63 +132,63 @@ void Wifi_Class::get_udp_input()
 
 				//Serial.println("Speed = " + String(value));
 			}
-			else if (valueFromPacket.substring(0, 3) == "hue")
+			else if (message == "hue")
 			{
 				Animation_Controller::current_animation->change_var(hue, a_value, value);
 			}
-			else if (valueFromPacket.substring(0, 3) == "hsp")
+			else if (message == "hsp")
 			{
 				Animation_Controller::current_animation->change_var(hue, a_speed, (float)value / 60.0);
 			}
-			else if (valueFromPacket.substring(0, 3) == "off")
+			else if (message == "off")
 			{
 				//universe.ChangeOffset(value);
 				//Serial.println("Offset = " + String(value));
 			}
-			else if (valueFromPacket.substring(0, 3) == "b00")
+			else if (message == "b00")
 			{
 				//universe.NextPattern();
 			}
-			else if (valueFromPacket.substring(0, 3) == "b01")
+			else if (message == "b01")
 			{
 				//universe.PrevPattern();
 			}
-			else if (valueFromPacket.substring(0, 3) == "t00")
+			else if (message == "t00")
 			{
-				//universe.uAutoplay = (bool)value;
+				Animation_Controller::autoplay = (bool)value;
 				//universe.ToggleAutoplay();
 			}
-			else if (valueFromPacket.substring(0, 3) == "b04")
+			else if (message == "b04")
 			{
 				Animation_Controller::current_animation->change_var(hue, a_value,
 					int(Animation_Controller::current_animation->vars(hue, a_value)->value + 16) % 255);
 			}
-			else if (valueFromPacket.substring(0, 3) == "b05")
+			else if (message == "b05")
 			{
 				Animation_Controller::current_animation->change_var(hue, a_value, random8());
 			}
-			else if (valueFromPacket.substring(0, 3) == "str")
+			else if (message == "str")
 			{
 				//universe.uStrobeTime = value;
 			}
-			else if (valueFromPacket.substring(0, 3) == "t01")
+			else if (message == "t01")
 			{
 				//universe.uStrobe = (bool)value;
 			}
-			else if (valueFromPacket.substring(0, 3) == "b06")
+			else if (message == "b06")
 			{
 				//Serial.println(value);
 				Animation_Controller::set_transition(Transition_Type(value));
 			}
-			else if (valueFromPacket.substring(0, 3) == "b07")
+			else if (message == "b07")
 			{
 				ESP.restart();
 			}
-			else if (valueFromPacket.substring(0, 3) == "b02")
+			else if (message == "b02")
 			{
 				//universe.ChangeReflect();
 			}
-			else if (valueFromPacket.substring(0, 3) == "pat")
+			else if (message == "pat")
 			{
 				//Serial.println("Pattern = " + String(value));
 				//universe.SetPattern(value);
@@ -197,16 +204,16 @@ void Wifi_Class::get_udp_input()
 					current_ani = Animation_Name(value % NUM_AUTOPLAY_ANIMATIONS);
 				}
 			}
-			else if (valueFromPacket.substring(0, 3) == "act")
+			else if (message == "act")
 			{
 				//universe.uPower = (bool)value;
 			}
-			else if (valueFromPacket.substring(0, 3) == "b03")
+			else if (message == "b03")
 			{
 				//universe.uSlowStart = millis();
 				//universe.uSlow = (bool)value;
 			}
-			else if (valueFromPacket.substring(0, 3) == "del")
+			else if (message == "del")
 			{
 				Transition::total_time = value * 40;
 				//universe.uSlowDelay = value;

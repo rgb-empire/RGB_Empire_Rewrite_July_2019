@@ -58,12 +58,13 @@ void Color_Waves::calculate_frame()
 		index = scale8(index, 240);
 
 		//CRGB newcolor = ColorFromPalette(palette, index, bri8);
-		CRGB newcolor = ColorFromPalette(RainbowColors_p, index, bri8);
+		CRGB newcolor = ColorFromPalette(vars.palette_current, index, bri8);
 
 		uint16_t pixelnumber = i;
 		pixelnumber = (num_leds - 1) - pixelnumber;
 
 		nblend(leds[pixelnumber], newcolor, 128);
+
 	}
 
 	END;

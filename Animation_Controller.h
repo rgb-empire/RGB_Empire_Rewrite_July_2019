@@ -34,6 +34,8 @@ private:
 	static Animation* current_animation;
 	static Animation* next_animation;
 
+	static bool autoplay;
+
 	int same_group_offset;
 
 	// All speeds will be scaled as though they were running at this rate.

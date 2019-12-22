@@ -3,6 +3,8 @@
 //**********************//
 
 #include "Bug.h"
+#include <FastLED.h>
+#include <Arduino.h>
 
 //**********************//
 //	Custom Libraries	//
@@ -38,6 +40,10 @@ void setup()
 void loop()
 {
 	START;
+
+	EVERY_N_SECONDS(10) {
+		Bug::check_memory();
+	}
 
 	controller->run();
 

@@ -2,6 +2,7 @@
 
 Animation* Animation_Controller::current_animation;
 Animation* Animation_Controller::next_animation;
+bool Animation_Controller::autoplay;
 
 Animation_Controller::Animation_Controller()
 {
@@ -12,6 +13,8 @@ Animation_Controller::Animation_Controller()
 	start_animation();
 
 	current_animation->print_arrangement_info();
+
+	autoplay = true;
 
 	MEM;
 	END;
@@ -31,9 +34,11 @@ void Animation_Controller::run()
 
 	erase_prev_frame();
 
-	EVERY_N_SECONDS(10)
+	EVERY_N_SECONDS(60)
 	{
-		//change_animation(Animation_Name(random8(0,NUM_AUTOPLAY_ANIMATIONS)));
+		if (autoplay) {
+			change_animation(Animation_Name(random8(0,NUM_AUTOPLAY_ANIMATIONS)));
+		}
 	}
 
 	if (Transition::active)
@@ -139,7 +144,7 @@ void Animation_Controller::erase_prev_frame()
 // Show the current_animation leds based on it's led_arrangements
 void Animation_Controller::show()
 {
-	START;
+	START2;
 
 	if (Transition::active)
 	{
@@ -163,7 +168,7 @@ void Animation_Controller::show()
 		Transition::none(current_animation);
 	}
 
-	END;
+	END2;
 }
 
 void Animation_Controller::set_transition(Transition_Type new_transition_type)
