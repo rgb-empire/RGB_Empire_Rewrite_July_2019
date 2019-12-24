@@ -35,6 +35,9 @@ private:
 	static Animation* next_animation;
 
 	static bool autoplay;
+	static int autoplay_min_time;
+	static int autoplay_max_time;
+	static long autoplay_next_time;
 
 	int same_group_offset;
 

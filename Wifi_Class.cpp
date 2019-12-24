@@ -216,7 +216,14 @@ void Wifi_Class::get_udp_input()
 			else if (message == "del")
 			{
 				Transition::total_time = value * 40;
-				//universe.uSlowDelay = value;
+			}
+			else if (message == "min")
+			{
+				Animation_Controller::autoplay_min_time = value * 1000;
+			}
+			else if (message == "max")
+			{
+				Animation_Controller::autoplay_max_time = value * 1000;
 			}
 
 			//Serial.println(valueFromPacket);

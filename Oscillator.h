@@ -15,20 +15,30 @@
 
 #include "arduino.h"
 #include "FastLED.h"
+#include <vector>
 
 class Oscillator
 {
  protected:
 
 	 accum88 BPM;
-	 saccum78 min;
-	 saccum78 max;
+
+	 saccum1516 min;
+	 saccum1516 max;
+
+	 std::vector<Oscillator> osc;
+
+	 unsigned long next_tempo_time;
+	 int tempo_trans_time;
 
  public:
 	Oscillator(accum88 new_BPM, saccum78 new_min, saccum78 new_max);
 	~Oscillator();
 
-	float O1(saccum1516 offset);
+	float O1(saccum1516 offset = 0);
+
+	void update_tempo();
+
 };
 
 #endif

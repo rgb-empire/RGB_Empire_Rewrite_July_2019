@@ -15,7 +15,11 @@ Oscillator::~Oscillator()
 {
 }
 
-float Oscillator::O1(saccum1516 offset = 0)
+float Oscillator::O1(saccum1516 offset)
 {
 	return beatsin88(BPM);
+}
+
+void Oscillator::update_tempo()
+{
 }

@@ -114,7 +114,7 @@ public:
 
 	static inline void print(String new_string, int value);
 
-	static inline void check_memory();
+	static inline void check_memory(String msg);
 };
 
 inline void Bug::display_memory(String new_string)
@@ -228,19 +228,20 @@ inline void Bug::print(String new_string, int value)
 	Serial.println(new_string + ": " + String(value));
 }
 
-inline void Bug::check_memory() {
+inline void Bug::check_memory(String msg = "") {
 
-	Serial.print("Memory remaining: ");
+	Serial.print(msg);
+
+	Serial.print(" ");
 
 	Serial.print((ESP.getFreeHeap() / 1024));
 
-	Serial.print(" KB  ");
-
-	Serial.print("and running at ");
+	Serial.print(" KB ");
 
 	Serial.print(FastLED.getFPS());
 
-	Serial.println(" FPS");
+	Serial.println(" FPS ");
+
 
 	heap_caps_check_integrity_all(true);
 }

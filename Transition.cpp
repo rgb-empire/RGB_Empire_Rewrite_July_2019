@@ -17,26 +17,69 @@ void Transition::set_ratio()
 {
 	ratio = (float)(total_time - (millis() - start_time)) / (float)total_time;
 
-	if (ratio < 0)
+	if (ratio < 0.0)
 	{
 		ratio = 0;
 	}
 
+	if (ratio > 1.0) {
+		ratio = 1;
+	}
+
 	num_transitioned = new_num_transitioned;
-	new_num_transitioned = num_leds * (1 - ratio);
+	new_num_transitioned = (num_leds) * (1 - ratio);
+
+	if (new_num_transitioned < 0) {
+		new_num_transitioned = 0;
+	}
+	if (new_num_transitioned > num_leds) {
+		new_num_transitioned = num_leds;
+	}
+
+	if (num_transitioned < 0) {
+		num_transitioned = 0;
+	}
+	if (num_transitioned > num_leds) {
+		num_transitioned = num_leds;
+	}
 }
 
 void Transition::set_eased_ratio()
 {
 	ratio = (float)((float)ease16InOutQuad(int((float)UINT16_MAX * ((float)(total_time - (millis() - start_time)) / (float)total_time))) / (float)UINT16_MAX);
 
-	if (ratio < 0)
+	if (ratio < 0.0)
 	{
 		ratio = 0;
 	}
 
+	if (ratio > 1.0) {
+		ratio = 1;
+	}
+
 	num_transitioned = new_num_transitioned;
-	new_num_transitioned = num_leds * (1 - ratio);
+	new_num_transitioned = (num_leds) * (1 - ratio);
+
+	if (new_num_transitioned < 0) {
+		new_num_transitioned = 0;
+	}
+	if (new_num_transitioned > num_leds) {
+		new_num_transitioned = num_leds;
+	}
+
+	if (num_transitioned < 0) {
+		num_transitioned = 0;
+	}
+	if (num_transitioned > num_leds) {
+		num_transitioned = num_leds;
+	}
+
+	//Serial.println("Transitioned in Easing: ");
+	//Serial.println(new_num_transitioned);
+	//Serial.println(num_transitioned);
+	//Serial.println(ratio);
+
+	//Serial.println(num_leds);
 }
 
 void Transition::start()
@@ -70,7 +113,7 @@ void Transition::reset()
 	mask = new bool[num_leds];
 	num_transitioned = 0;
 
-	for (int i = 0; i < num_leds - 1; i++)
+	for (int i = 0; i < num_leds; i++)
 	{
 		mask[i] = false;
 	}
@@ -111,6 +154,10 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 {
 	START;
 
+	//Serial.println("Transitioned: ");
+	//Serial.println(new_num_transitioned);
+	//Serial.println(num_transitioned);
+
 	int cur_led_num = 0;
 
 	CRGB* current_next_frame = current_animation->next_frame();
@@ -119,7 +166,7 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 	CRGB* next_next_frame = next_animation->next_frame();
 	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
 
-	Transition::set_ratio();
+	set_eased_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -130,8 +177,8 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 
 			for (auto& led : *arr_led_set)
 			{
-				led = next_animation->leds[cur_led_num + i].nscale8_video(255 * (1 - Transition::ratio));
-				led += current_animation->leds[cur_led_num + i].nscale8_video(255 * Transition::ratio);
+				led = next_animation->leds[cur_led_num + i].nscale8_video(255 * (1 - ratio));
+				led += current_animation->leds[cur_led_num + i].nscale8_video(255 * ratio);
 
 				i++;
 			}
@@ -144,6 +191,10 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 
 void Transition::wipe(Animation* current_animation, Animation* next_animation)
 {
+	//Serial.println("Transitioned: ");
+	//Serial.println(new_num_transitioned);
+	//Serial.println(num_transitioned);
+
 	int cur_led_num = 0;
 
 	int cur_group_num = 0;
@@ -155,7 +206,7 @@ void Transition::wipe(Animation* current_animation, Animation* next_animation)
 	CRGB* next_next_frame = next_animation->next_frame();
 	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
 
-	Transition::set_ratio();
+	set_eased_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -165,12 +216,14 @@ void Transition::wipe(Animation* current_animation, Animation* next_animation)
 
 			for (auto& led : *arr_led_set)
 			{
-				if (i < abs(arr_led_set->len) * (1 - Transition::ratio))
+				if (i < abs(arr_led_set->len) * (1 - ratio))
 				{
+					
 					led = next_animation->leds[cur_led_num + i];
 				}
 				else
 				{
+
 					led = current_animation->leds[cur_led_num + i];
 				}
 
@@ -185,35 +238,38 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 {
 	START;
 
+	//Serial.println("Transitioned: ");
+	//Serial.println(new_num_transitioned);
+	//Serial.println(num_transitioned);
+
 	int cur_led_num = 0;
 
 	CRGB* current_next_frame = current_animation->next_frame();
 	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
 
-
 	CRGB* next_next_frame = next_animation->next_frame();
 	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
 
-	Transition::set_eased_ratio();
+	set_eased_ratio();
 
-	while (Transition::new_num_transitioned > Transition::num_transitioned)
+	//Bug::thing_counter(__PRETTY_FUNCTION__);
+
+	while (new_num_transitioned > num_transitioned)
 	{
-		int index = random(0, Transition::num_leds);
+		int index = random(0, num_leds - 1);
 
-		//Serial.println(num_tDissolved);
-
-		if (Transition::mask[index])
+		if (mask[index])
 		{
 			//Serial.println(index);
 
 			if (random(0, 2))
 			{
 
-				while (Transition::mask[index])
+				while (mask[index])
 				{
 					index++;
 
-					if (index >= Transition::num_leds)
+					if (index >= num_leds)
 					{
 						index = 0;
 					}
@@ -222,23 +278,25 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 			else
 			{
 
-				while (Transition::mask[index])
+				while (mask[index])
 				{
 					index--;
 
 					if (index < 0)
 					{
-						index = Transition::num_leds - 1;
+						index = num_leds - 1;
 					}
 				}
 			}
 
 		}
 
-		Transition::mask[index] = true;
+		mask[index] = true;
 
-		Transition::num_transitioned++;
+		num_transitioned++;
 	}
+
+	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -248,7 +306,7 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 
 			for (auto& led : *arr_led_set)
 			{
-				if (Transition::mask[i])
+				if (mask[i])
 				{
 					led = next_animation->leds[cur_led_num + i];
 				}
@@ -261,6 +319,8 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 		}
 		cur_led_num += group->size;
 	}
+
+	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
 	END;
 }

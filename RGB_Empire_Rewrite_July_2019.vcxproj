@@ -141,6 +141,7 @@
     <ClInclude Include="Display_Test.h" />
     <ClInclude Include="Fixture_Parameters.h" />
     <ClInclude Include="Glitter.h" />
+    <ClInclude Include="Trigger.h" />
     <ClInclude Include="LED_Arrangement.h" />
     <ClInclude Include="LED_Fixture.h" />
     <ClInclude Include="LED_Group.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Display_Test.cpp" />
     <ClCompile Include="Glitter.cpp" />
+    <ClCompile Include="Trigger.cpp" />
     <ClCompile Include="LED_Arrangement.cpp" />
     <ClCompile Include="LED_Fixture.cpp" />
     <ClCompile Include="LED_Group.cpp" />
