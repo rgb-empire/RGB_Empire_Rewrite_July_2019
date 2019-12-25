@@ -13,11 +13,11 @@ long Wifi_Class::try_again_time = 0;
 //char* Wifi_Class::ssid = "Trap_House";
 //char* Wifi_Class::password = "ThIsHoUsEisatrap72";
 
-char* Wifi_Class::ssid = "ESP_Master";
-char* Wifi_Class::password = "ESP_Secure_Password";
+//char* Wifi_Class::ssid = "ESP_Master";
+//char* Wifi_Class::password = "ESP_Secure_Password";
 
-//char* Wifi_Class::ssid = "Bill wi the science fi-2.4";
-//char* Wifi_Class::password = "3096605290";
+char* Wifi_Class::ssid = "Bill wi the science fi-2.4";
+char* Wifi_Class::password = "3096605290";
 
 
 void Wifi_Class::WiFiEvent(WiFiEvent_t event) {
