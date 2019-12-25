@@ -24,6 +24,7 @@
 #include "LED_Arrangement.h"
 #include "LED_Fixture.h"
 #include "Animation_Variables.h"
+#include "Transition.h"
 #include "Bug.h"
 
 
@@ -33,7 +34,7 @@
 
 class Animation
 {
- protected:
+protected:
 	// Every animation should have a unique name.
 	// "Base" is t he name of the interface.
 	Animation_Name name;
@@ -59,9 +60,9 @@ class Animation
 	friend class Wifi_Class;
 	friend class Transition;
 
- public:
-	 // A struct that contains all the variables associated with the animation.
-	 Animation_Variables vars;
+public:
+	// A struct that contains all the variables associated with the animation.
+	Animation_Variables vars;
 
 	Animation(Animation_Name new_animation_name);
 	Animation();
