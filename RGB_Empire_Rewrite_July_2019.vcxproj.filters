@@ -165,10 +165,10 @@
     <ClInclude Include="Rapid_Boom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
+    <ClInclude Include="Trigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Trigger.h">
+    <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

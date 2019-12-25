@@ -8,78 +8,31 @@ int Transition::total_time = 5000;
 long Transition::start_time = 0;
 
 bool* Transition::mask = nullptr;
-float Transition::ratio = 0.0;
+fract16 Transition::ratio = 0;
+fract16 Transition::eased_ratio = 0;
 int Transition::num_transitioned = 0;
 int Transition::new_num_transitioned = 0;
 int Transition::num_leds = LED_Fixture::fixture_params.total_num_leds;
 
 void Transition::set_ratio()
 {
-	ratio = (float)(total_time - (millis() - start_time)) / (float)total_time;
-
-	if (ratio < 0.0)
-	{
-		ratio = 0;
-	}
-
-	if (ratio > 1.0) {
-		ratio = 1;
-	}
+	const int elapsed_time = millis() - start_time;
 
 	num_transitioned = new_num_transitioned;
-	new_num_transitioned = (num_leds) * (1 - ratio);
 
-	if (new_num_transitioned < 0) {
-		new_num_transitioned = 0;
+	if (elapsed_time < total_time) {
+		ratio = (total_time - elapsed_time) / total_time;
+		eased_ratio = ease16InOutQuad(ratio);
+
+		new_num_transitioned = lerp16by16(0, num_leds, ratio);
 	}
-	if (new_num_transitioned > num_leds) {
+	else {
+		ratio = UINT16_MAX;
+		eased_ratio = UINT16_MAX;
+
 		new_num_transitioned = num_leds;
 	}
 
-	if (num_transitioned < 0) {
-		num_transitioned = 0;
-	}
-	if (num_transitioned > num_leds) {
-		num_transitioned = num_leds;
-	}
-}
-
-void Transition::set_eased_ratio()
-{
-	ratio = (float)((float)ease16InOutQuad(int((float)UINT16_MAX * ((float)(total_time - (millis() - start_time)) / (float)total_time))) / (float)UINT16_MAX);
-
-	if (ratio < 0.0)
-	{
-		ratio = 0;
-	}
-
-	if (ratio > 1.0) {
-		ratio = 1;
-	}
-
-	num_transitioned = new_num_transitioned;
-	new_num_transitioned = (num_leds) * (1 - ratio);
-
-	if (new_num_transitioned < 0) {
-		new_num_transitioned = 0;
-	}
-	if (new_num_transitioned > num_leds) {
-		new_num_transitioned = num_leds;
-	}
-
-	if (num_transitioned < 0) {
-		num_transitioned = 0;
-	}
-	if (num_transitioned > num_leds) {
-		num_transitioned = num_leds;
-	}
-
-	//Serial.println("Transitioned in Easing: ");
-	//Serial.println(new_num_transitioned);
-	//Serial.println(num_transitioned);
-	//Serial.println(ratio);
-
-	//Serial.println(num_leds);
 }
 
 void Transition::start()
@@ -110,8 +63,10 @@ void Transition::reset()
 		delete mask;
 	}
 
-	mask = new bool[num_leds];
 	num_transitioned = 0;
+	new_num_transitioned = 0;
+
+	mask = new bool[num_leds];
 
 	for (int i = 0; i < num_leds; i++)
 	{
@@ -119,27 +74,52 @@ void Transition::reset()
 	}
 }
 
-void Transition::none(Animation* current_animation)
+// Show the current_animation leds based on it's led_arrangements
+void Transition::show(Animation* current_animation, Animation* next_animation)
+{
+	START;
+
+	cur_animation_frame = current_animation->next_frame();
+	cur_animation_frame_set = CRGBSet(cur_animation_frame, current_animation->num_leds);
+
+	if (active)
+	{
+		next_animation_frame = next_animation->next_frame();
+		next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
+
+		switch (temp_type)
+		{
+		case _tt_Fade:
+			fade();
+			break;
+		case _tt_Wipe:
+			wipe();
+			break;
+		case _tt_Dissolve:
+			dissolve();
+			break;
+		default:
+			fade();
+		}
+	}
+	else
+	{
+		none();
+	}
+
+	END;
+}
+
+void Transition::none()
 {
 	int cur_led_num = 0;
 
-	THING;
-
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
-
-	THING;
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
-		//P(group->group_number);
-		//P(group->size);
-
 		for (auto& arr_led_set : group->leds)
 		{
 			int i = 0;
-
-			//P(cur_led_num);
 
 			for (auto& led : *arr_led_set)
 			{
@@ -160,13 +140,12 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 
 	int cur_led_num = 0;
 
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
 
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
 
-	set_eased_ratio();
+	CRGB* next_animation_frame = next_animation->next_frame();
+	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
+
+	set_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -199,14 +178,14 @@ void Transition::wipe(Animation* current_animation, Animation* next_animation)
 
 	int cur_group_num = 0;
 
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
+	CRGB* cur_animation_frame = current_animation->next_frame();
+	CRGBSet cur_animation_frame_set = CRGBSet(cur_animation_frame, current_animation->num_leds);
 
 
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
+	CRGB* next_animation_frame = next_animation->next_frame();
+	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
 
-	set_eased_ratio();
+	set_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -244,13 +223,13 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 
 	int cur_led_num = 0;
 
-	CRGB* current_next_frame = current_animation->next_frame();
-	CRGBSet current_next_frame_set = CRGBSet(current_next_frame, current_animation->num_leds);
+	CRGB* cur_animation_frame = current_animation->next_frame();
+	CRGBSet cur_animation_frame_set = CRGBSet(cur_animation_frame, current_animation->num_leds);
 
-	CRGB* next_next_frame = next_animation->next_frame();
-	CRGBSet next_next_frame_set = CRGBSet(next_next_frame, next_animation->num_leds);
+	CRGB* next_animation_frame = next_animation->next_frame();
+	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
 
-	set_eased_ratio();
+	set_ratio();
 
 	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
