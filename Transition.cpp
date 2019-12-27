@@ -36,13 +36,10 @@ void Transition::set_ratio()
 
 		new_num_transitioned = lerp16by16(0, num_leds, ratio);
 	}
-	else {
-		ratio = UINT16_MAX;
-		eased_ratio = UINT16_MAX;
-
-		new_num_transitioned = num_leds;
+	else
+	{
+		finish();
 	}
-
 }
 
 void Transition::start(Animation* new_next_animation)
@@ -66,17 +63,19 @@ void Transition::start(Animation* new_next_animation)
 	start_time = millis();
 }
 
-void Transition::reset()
+void Transition::finish()
 {
-	if (mask != nullptr)
-	{
-		delete mask;
-	}
+	active = false;
+
+	delete current_animation;
+
+	current_animation = next_animation;
+
+	ratio = 0;
+	eased_ratio = 0;
 
 	num_transitioned = 0;
 	new_num_transitioned = 0;
-
-	mask = new bool[num_leds];
 
 	for (int i = 0; i < num_leds; i++)
 	{
@@ -85,7 +84,7 @@ void Transition::reset()
 }
 
 // Show the current_animation leds based on it's led_arrangements
-void Transition::show(Animation* current_animation, Animation* next_animation)
+void Transition::show()
 {
 	START;
 
@@ -94,6 +93,8 @@ void Transition::show(Animation* current_animation, Animation* next_animation)
 
 	if (active)
 	{
+		set_ratio();
+
 		next_animation_frame = next_animation->next_frame();
 		next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
 
@@ -139,26 +140,14 @@ void Transition::none()
 	}
 }
 
-void Transition::fade(Animation* current_animation, Animation* next_animation)
+void Transition::fade()
 {
 	START;
 
-	//Serial.println("Transitioned: ");
-	//Serial.println(new_num_transitioned);
-	//Serial.println(num_transitioned);
-
 	int cur_led_num = 0;
-
-
-
-	CRGB* next_animation_frame = next_animation->next_frame();
-	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
-
-	set_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
-
 		for (auto& arr_led_set : group->leds)
 		{
 			int i = 0;
@@ -177,24 +166,11 @@ void Transition::fade(Animation* current_animation, Animation* next_animation)
 	END;
 }
 
-void Transition::wipe(Animation* current_animation, Animation* next_animation)
+void Transition::wipe()
 {
-	//Serial.println("Transitioned: ");
-	//Serial.println(new_num_transitioned);
-	//Serial.println(num_transitioned);
-
 	int cur_led_num = 0;
 
 	int cur_group_num = 0;
-
-	CRGB* cur_animation_frame = current_animation->next_frame();
-	CRGBSet cur_animation_frame_set = CRGBSet(cur_animation_frame, current_animation->num_leds);
-
-
-	CRGB* next_animation_frame = next_animation->next_frame();
-	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
-
-	set_ratio();
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -206,12 +182,10 @@ void Transition::wipe(Animation* current_animation, Animation* next_animation)
 			{
 				if (i < abs(arr_led_set->len) * (1 - ratio))
 				{
-					
 					led = next_animation->leds[cur_led_num + i];
 				}
 				else
 				{
-
 					led = current_animation->leds[cur_led_num + i];
 				}
 
@@ -222,25 +196,11 @@ void Transition::wipe(Animation* current_animation, Animation* next_animation)
 	}
 }
 
-void Transition::dissolve(Animation* current_animation, Animation* next_animation)
+void Transition::dissolve()
 {
 	START;
 
-	//Serial.println("Transitioned: ");
-	//Serial.println(new_num_transitioned);
-	//Serial.println(num_transitioned);
-
 	int cur_led_num = 0;
-
-	CRGB* cur_animation_frame = current_animation->next_frame();
-	CRGBSet cur_animation_frame_set = CRGBSet(cur_animation_frame, current_animation->num_leds);
-
-	CRGB* next_animation_frame = next_animation->next_frame();
-	CRGBSet next_animation_frame_set = CRGBSet(next_animation_frame, next_animation->num_leds);
-
-	set_ratio();
-
-	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
 	while (new_num_transitioned > num_transitioned)
 	{
@@ -248,11 +208,8 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 
 		if (mask[index])
 		{
-			//Serial.println(index);
-
 			if (random(0, 2))
 			{
-
 				while (mask[index])
 				{
 					index++;
@@ -265,7 +222,6 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 			}
 			else
 			{
-
 				while (mask[index])
 				{
 					index--;
@@ -276,15 +232,12 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 					}
 				}
 			}
-
 		}
 
 		mask[index] = true;
 
 		num_transitioned++;
 	}
-
-	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
@@ -307,8 +260,6 @@ void Transition::dissolve(Animation* current_animation, Animation* next_animatio
 		}
 		cur_led_num += group->size;
 	}
-
-	//Bug::thing_counter(__PRETTY_FUNCTION__);
 
 	END;
 }

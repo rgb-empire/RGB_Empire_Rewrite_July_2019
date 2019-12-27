@@ -40,10 +40,7 @@ void Animation::erase_previous_frame()
 {
 	START;
 
-	for (auto& pixel : *led_set)
-	{
-		pixel = CRGB::Black;
-	}
+	fill_solid(leds, num_leds, CRGB::Black);
 
 	END;
 }
@@ -56,6 +53,8 @@ Animation::Animation(Animation_Name new_animation_name)
 	vars(Animation_Variables(0, num_leds - 1))
 {
 	//P(arrangement->num_groups);
+
+	
 
 	for (auto& group : arrangement->led_groups)
 	{
