@@ -16,21 +16,15 @@ protected:
 	static long start_time;
 
 	static bool* mask;
-	//static float ratio;
+	static float ratio;
 	static int num_transitioned;
 	static int new_num_transitioned;
 	static int num_leds;
 
-	static fract16 ratio;
-	static fract16 eased_ratio;
-
-	CRGB* cur_animation_frame;
-	CRGB* next_animation_frame;
-
 	static void set_ratio();
+	static void set_eased_ratio();
 	static void start();
 	static void reset();
-	static void show(Animation* current_animation, Animation* next_animation);
 
 	static void none(Animation* current_animation);
 	static void fade(Animation* current_animation, Animation* next_animation);

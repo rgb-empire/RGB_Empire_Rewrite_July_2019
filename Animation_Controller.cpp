@@ -53,14 +53,27 @@ void Animation_Controller::run()
 		}
 	}
 
-	if (next_animation != nullptr)
+	if (Transition::active)
 	{
-		next_animation->run();
+		if(millis() - Transition::start_time > Transition::total_time)
+		{
+			delete current_animation;
+
+			current_animation = next_animation;
+
+			next_animation = nullptr;
+
+			Transition::active =  false;
+		}
+		else
+		{
+			next_animation->run();
+		}
 	}
 	
 	current_animation->run();
 
-	Transition::show(current_animation, next_animation);
+	show();
 
 	END;
 }
@@ -138,6 +151,59 @@ void Animation_Controller::erase_prev_frame()
 	LED_Fixture::black_out();
 
 	END;
+}
+
+// Show the current_animation leds based on it's led_arrangements
+void Animation_Controller::show()
+{
+	START2;
+
+	//static long count = 0;
+
+	//Bug::check_memory("Animation_Controller::show() START");
+
+	if (Transition::active)
+	{
+		switch (Transition::temp_type)
+		{
+		case _tt_Fade:
+			//count++;
+			//Serial.print("FADING ");
+			//Serial.println(count);
+			Transition::fade(current_animation, next_animation);
+			break;
+		case _tt_Wipe:
+			//count++;
+			//Serial.print("WIPING ");
+			//Serial.println(count);
+			Transition::wipe(current_animation, next_animation);
+			break;
+		case _tt_Dissolve:
+			//count++;
+			//Serial.print("DISSOLVING ");
+			//Serial.println(count);
+			Transition::dissolve(current_animation, next_animation);
+			break;
+		default:
+			//count++;
+			//Serial.print("DEFAULT FADING ");
+			//Serial.println(count);
+			Transition::fade(current_animation, next_animation);
+		}
+	}
+	else
+	{
+		//if (count > 0) {
+			//Serial.println("----------------------------------------------------");
+			//Serial.println("----------------------------------------------------");
+			//count = 0;
+		//}
+		Transition::none(current_animation);
+	}
+
+	//Bug::check_memory("Animation_Controller::show() END  ");
+
+	END2;
 }
 
 void Animation_Controller::set_transition(Transition_Type new_transition_type)
