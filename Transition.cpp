@@ -1,28 +1,18 @@
 #include "Transition.h"
 
+Transition_Type Transition::type = _tt_Random;
+Transition_Type Transition::temp_type = _tt_Fade;
+
+bool Transition::active = false;
+int Transition::total_time = 5000;
+long Transition::start_time = 0;
+
+bool* Transition::mask = nullptr;
+fract16 Transition::ratio = 0;
+fract16 Transition::eased_ratio = 0;
+int Transition::num_transitioned = 0;
+int Transition::new_num_transitioned = 0;
 int Transition::num_leds = LED_Fixture::fixture_params.total_num_leds;
-
-Transition::Transition(Animation* new_current_animation)
-	:current_animation(new_current_animation),
-	num_leds(current_animation->num_leds),
-	type(_tt_Random),
-	temp_type(_tt_fade),
-	active(false),
-	total_time(5000),
-	start_time(0),
-	mask(new bool[num_leds]),
-	ratio(0),
-	eased_ratio(0),
-	num_transitioned(0),
-	new_num_transitioned(0)
-{
-
-}
-
-Transition::~Transition()
-{
-	delete mask;
-}
 
 void Transition::set_ratio()
 {
@@ -45,10 +35,8 @@ void Transition::set_ratio()
 
 }
 
-void Transition::start(Animation* new_next_animation)
+void Transition::start()
 {
-	next_animation = new_next_animation;
-
 	active = true;
 
 	switch (type)
@@ -64,6 +52,8 @@ void Transition::start(Animation* new_next_animation)
 	}
 
 	start_time = millis();
+
+	reset();
 }
 
 void Transition::reset()
@@ -123,6 +113,7 @@ void Transition::show(Animation* current_animation, Animation* next_animation)
 void Transition::none()
 {
 	int cur_led_num = 0;
+
 
 	for (auto& group : current_animation->arrangement->led_groups)
 	{
