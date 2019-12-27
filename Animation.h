@@ -56,10 +56,9 @@ protected:
 	CRGB* leds;
 	CRGBSet* led_set;
 
-	Transition transition;
-
 	friend class Animation_Controller;
 	friend class Wifi_Class;
+	friend class Transition;
 
 public:
 	// A struct that contains all the variables associated with the animation.
