@@ -15,7 +15,13 @@ int Transition::num_leds = LED_Fixture::fixture_params.total_num_leds;
 
 void Transition::set_ratio()
 {
-	ratio = (float)(total_time - (millis() - start_time)) / (float)total_time;
+	int elapsed_time = millis() - start_time;
+
+	if (elapsed_time > total_time) {
+		elapsed_time = total_time;
+	}
+
+	ratio = (float)(total_time - elapsed_time) / (float)total_time;
 
 	if (ratio < 0.0)
 	{
@@ -46,7 +52,13 @@ void Transition::set_ratio()
 
 void Transition::set_eased_ratio()
 {
-	ratio = (float)((float)ease16InOutQuad(int((float)UINT16_MAX * ((float)(total_time - (millis() - start_time)) / (float)total_time))) / (float)UINT16_MAX);
+	int elapsed_time = millis() - start_time;
+
+	if (elapsed_time > total_time) {
+		elapsed_time = total_time;
+	}
+
+	ratio = (float)((float)ease16InOutQuad(int((float)UINT16_MAX * ((float)(total_time - elapsed_time) / (float)total_time))) / (float)UINT16_MAX);
 
 	if (ratio < 0.0)
 	{

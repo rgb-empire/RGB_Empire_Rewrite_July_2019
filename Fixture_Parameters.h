@@ -34,17 +34,30 @@ constexpr int milli_amps = 60000;		// Maximum power output of the connected powe
 //	{5,		288,	60,	_s_Linear,	288,	1}
 //};
 
-constexpr Strip_Parameters strip_parameters[num_strips] =
+// { strip_pin, num_leds, leds_per_meter, shape, length_in_leds, width_in_leds }
+constexpr Strip_Parameters strip_parameters[num_strips] = 
 {
-	{13,	300,	144,	_s_Linear,	300,	1},
-	{12,	300,	144,	_s_Linear,	300,	1},
-	{26,	300,	144,	_s_Linear,	300,	1},
-	{2,		300,	144,	_s_Linear,	300,	1},
-	{0,		300,	144,	_s_Linear,	300,	1},
-	{4,		300,	144,	_s_Linear,	300,	1},
-	{16,	300,	144,	_s_Linear,	300,	1},
-	{17,	300,	144,	_s_Linear,	300,	1}
+	{13,	300,	60,	_s_Folded,	150,	2},
+	{12,	300,	60,	_s_Folded,	150,	2},
+	{15,	300,	60,	_s_Folded,	150,	2},
+	{2,	300,	60,	_s_Folded,	150,	2},
+	{0,		300,	60,	_s_Folded,	150,	2},
+	{4,		300,	60,	_s_Folded,	150,	2},
+	{16,		300,	60,	_s_Folded,	150,	2},
+	{17,		300,	60,	_s_Folded,	150,	2}
 };
+
+//constexpr Strip_Parameters strip_parameters[num_strips] =
+//{
+//	{13,	300,	144,	_s_Linear,	300,	1},
+//	{12,	300,	144,	_s_Linear,	300,	1},
+//	{26,	300,	144,	_s_Linear,	300,	1},
+//	{2,		300,	144,	_s_Linear,	300,	1},
+//	{0,		300,	144,	_s_Linear,	300,	1},
+//	{4,		300,	144,	_s_Linear,	300,	1},
+//	{16,	300,	144,	_s_Linear,	300,	1},
+//	{17,	300,	144,	_s_Linear,	300,	1}
+//};
 
 // { num_strips, total_num_leds, volts, milliamps, strip_parameters[] }
 constexpr Fixture_Parameters fixture_parameters =
