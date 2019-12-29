@@ -16,10 +16,10 @@
 
 
 constexpr int num_strips = 8;			// You will also need to change the Strip_Parameter array size in Fixture_Parameters in My_Enums.h
-constexpr int total_num_leds = 2400;	// TODO: make this programatic
+constexpr int total_num_leds = 4800;	// TODO: make this programatic
 
-constexpr int volts = 12;
-constexpr int milli_amps = 60000;		// Maximum power output of the connected power supply. Setting this properly will prevent brown outs!
+constexpr int volts = 5;
+constexpr int milli_amps = 300000;		// Maximum power output of the connected power supply. Setting this properly will prevent brown outs!
 
 // { strip_pin, num_leds, leds_per_meter, shape, length_in_leds, width_in_leds }
 //constexpr Strip_Parameters strip_parameters[num_strips] = 
@@ -37,14 +37,14 @@ constexpr int milli_amps = 60000;		// Maximum power output of the connected powe
 // { strip_pin, num_leds, leds_per_meter, shape, length_in_leds, width_in_leds }
 constexpr Strip_Parameters strip_parameters[num_strips] = 
 {
-	{13,	300,	60,	_s_Folded,	150,	2},
-	{12,	300,	60,	_s_Folded,	150,	2},
-	{15,	300,	60,	_s_Folded,	150,	2},
-	{2,	300,	60,	_s_Folded,	150,	2},
-	{0,		300,	60,	_s_Folded,	150,	2},
-	{4,		300,	60,	_s_Folded,	150,	2},
-	{16,		300,	60,	_s_Folded,	150,	2},
-	{17,		300,	60,	_s_Folded,	150,	2}
+	{13,	600,	60,	_s_Folded,	150,	4},
+	{12,	600,	60,	_s_Folded,	150,	4},
+	{15,	600,	60,	_s_Folded,	150,	4},
+	{2,		600,	60,	_s_Folded,	150,	4},
+	{0,		600,	60,	_s_Folded,	150,	4},
+	{4,		600,	60,	_s_Folded,	150,	4},
+	{16,	600,	60,	_s_Folded,	150,	4},
+	{17,	600,	60,	_s_Folded,	150,	4}
 };
 
 //constexpr Strip_Parameters strip_parameters[num_strips] =
