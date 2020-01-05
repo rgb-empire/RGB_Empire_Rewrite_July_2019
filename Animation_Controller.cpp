@@ -41,6 +41,12 @@ void Animation_Controller::run()
 
 	erase_prev_frame();
 
+
+
+	//EVERY_N_SECONDS(4) {
+	//	splosion_trigger = true;
+	//}
+
 	if (autoplay) {
 
 		long now = millis();
@@ -75,6 +81,11 @@ void Animation_Controller::run()
 
 	show();
 
+	if (splosion_trigger == true)
+	{
+		splosion_trigger = false;
+	}
+
 	END;
 }
 
@@ -82,7 +93,7 @@ void Animation_Controller::start_animation()
 {
 	START;
 
-	current_animation = Animation::create(_Default);
+	current_animation = Animation::create(_Drip_Splosion);
 
 	END;
 }

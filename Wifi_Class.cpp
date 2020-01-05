@@ -186,7 +186,7 @@ void Wifi_Class::get_udp_input()
 			}
 			else if (message == "b02")
 			{
-				//universe.ChangeReflect();
+				splosion_trigger = true;
 			}
 			else if (message == "pat")
 			{

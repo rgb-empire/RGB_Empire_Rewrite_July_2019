@@ -5,11 +5,11 @@ Multi_Meteor::Multi_Meteor(LED_Group* new_group)
 {
 	START;
 
-	int num_meteors = num_leds / 72;
+	int num_meteors = num_leds / 100;
 
 	for (int i = 0; i < num_meteors; i++)
 	{
-		animations.push_back(Animation::create(_Meteor, new_group));
+		animations.emplace_back(Animation::create(_Meteor, new_group));
 	}
 
 	END;

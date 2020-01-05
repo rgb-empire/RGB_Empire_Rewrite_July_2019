@@ -162,10 +162,31 @@
     <ClInclude Include="My_Palettes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rapid_Boom.h">
+    <ClInclude Include="Trigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Trigger.h">
+    <ClInclude Include="Rapid_Boom.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Drip_Splosion.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle_Strobe.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Strobe.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="Dripper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Splosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid_Color_Palette.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
@@ -287,10 +308,34 @@
     <ClCompile Include="Palette_Collection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rapid_Boom.cpp">
+    <ClCompile Include="Trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Trigger.cpp">
+    <ClCompile Include="Rapid_Boom.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Drip_Splosion.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle_Strobe.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Strobe.cpp">
+      <Filter>4. Animations</Filter>
+    </ClCompile>
+    <ClCompile Include="Dripper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Splosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="My_Enums.cpp">
+      <Filter>1. Top Level Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid_Color_Palette.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

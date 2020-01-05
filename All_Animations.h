@@ -15,5 +15,12 @@
 #include "Boom.h"
 #include "Boom_2.h"
 #include "Rapid_Boom.h"
+#include "Drip_Splosion.h"
+#include "Strobe.h"
+#include "Circle_Strobe.h"
+#include "Boomer.h"
+#include "Splosion.h"
+#include "Dripper.h"
+#include "Solid_Color_Palette.h"
 
 #include "Artnet.h"

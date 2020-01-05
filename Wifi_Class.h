@@ -4,6 +4,7 @@
 #include <WiFiUdp.h>
 #include "Bug.h"
 #include "Animation_Controller.h"
+#include "My_Enums.h"
 
 class Animation_Controller;
 

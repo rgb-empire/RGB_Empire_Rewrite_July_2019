@@ -34,7 +34,7 @@ private:
 	static Animation* current_animation;
 	static Animation* next_animation;
 
-	static bool autoplay;
+	
 	static int autoplay_min_time;
 	static int autoplay_max_time;
 	static long autoplay_next_time;
@@ -49,6 +49,7 @@ private:
 	friend class Wifi_Class;
 
 public:
+	static bool autoplay;
 	Animation_Controller();
 
 	void print_info();

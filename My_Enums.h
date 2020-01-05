@@ -11,25 +11,32 @@
 #include <FastLED.h>
 #include "Bug.h"
 
-#define NUM_AUTOPLAY_ANIMATIONS 11
+#define NUM_AUTOPLAY_ANIMATIONS 15
 
 enum Animation_Name
 {
+	_Solid_Color,
+	_Solid_Color_Palette,
 	_Color_Waves,
-	_Confetti,
 	_Rainbow_Wave,
-	_Glitter,
 	_Rainbow_Wave_With_Glitter,
-	_Multi_Meteor,
+	_Glitter,
+	_Confetti,
+	_Strobe,
 	_Wave,
+	_Meteor,
 	_Boom,
 	_Boom_2,
-	_Rapid_Boom,
 	_Crazy_Time,
+	_Dripper,
+	_Drip_Splosion,
 
-	_Solid_Color,
-	_Meteor,
+	_Splosion,
+	_Rapid_Boom,
+	_Multi_Meteor,
+	_Circle_Strobe,
 	_Mr_Poopy_Worm,
+	_Boomer,
 
 	_Sinelon,
 
@@ -50,6 +57,7 @@ enum Shape
 	_s_Circle,
 	_s_Polygon,
 	_s_Spiral,
+	_s_Stalk_Flower,
 	_s_Plant = 10,
 	_s_Tree = 11,
 	_s_Vertical_Lamp = 12
@@ -152,6 +160,8 @@ enum Animation_Variable_Name
 	a_offset,
 	a_eor
 };
+
+extern bool splosion_trigger;
 
 #endif
 

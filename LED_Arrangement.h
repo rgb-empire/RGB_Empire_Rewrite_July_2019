@@ -36,5 +36,6 @@ public:
 	static std::vector<LED_Arrangement*> create_circle_arrangements(CRGBSet* new_leds, Strip_Parameters new_strip_parameters);
 	static std::vector<LED_Arrangement*> create_polygon_arrangements(CRGBSet* new_leds, Strip_Parameters new_strip_parameters);
 	static std::vector<LED_Arrangement*> create_spiral_arrangements(CRGBSet* new_leds, Strip_Parameters new_strip_parameters);
-};
+	static std::vector<LED_Arrangement*> create_stalk_flower_arrangements(CRGBSet* new_leds, Strip_Parameters new_strip_parameters);
 
+};

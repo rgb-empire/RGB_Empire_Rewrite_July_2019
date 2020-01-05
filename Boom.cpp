@@ -88,7 +88,7 @@ void Boom::start_flare() {
 	vars.random_palette();
 
 	flare_pos = 0;
-	flare_vel = float(random16(120, 290)) / 300; // trial and error to get reasonable range
+	flare_vel = float(random16(120, 290)) / 200; // trial and error to get reasonable range
 	vars(brightness, a_value)->value = 255;
 
 	// initialize launch sparks
@@ -156,7 +156,7 @@ void Boom::flare() {
 		for (int i = 0; i < num_sparks; i++) {
 
 			spark_pos[i] = flare_pos;
-			spark_vel[i] = (float(random16(0, 20000)) / 10000.0) - 1.0; // from -1 to 1 
+			spark_vel[i] = (float(random16(0, 40000)) / 10000.0) - 2.0; // from -1 to 1 
 			spark_col[i] = abs(spark_vel[i]) * 500; // set colors before scaling velocity to keep them bright 
 			spark_col[i] = constrain(spark_col[i], 0, 255);
 			spark_vel[i] *= (flare_pos / num_leds); // proportional to height 

@@ -56,10 +56,35 @@ Animation::Animation(Animation_Name new_animation_name)
 	vars(Animation_Variables(0, num_leds - 1))
 {
 	//P(arrangement->num_groups);
+	if (strip_parameters[0].shape == _s_Stalk_Flower && new_animation_name == _Drip_Splosion) {
 
-	for (auto& group : arrangement->led_groups)
+		Serial.println("IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
+		int i = 0;
+
+		for (auto& group : arrangement->led_groups)
+		{
+			if (i % 2 == 1)
+			{
+				Serial.println("DRIPPPPPERRRRRR");
+				animations.push_back(create(_Dripper, group));
+			}
+			else
+			{
+				Serial.println("SPLOSIONNNNNNNN");
+				animations.push_back(create(_Splosion, group));
+			}
+			
+			i++;
+		}
+
+	}
+	else
 	{
-		animations.push_back(create(new_animation_name, group));
+		for (auto& group : arrangement->led_groups)
+		{
+			animations.push_back(create(new_animation_name, group));
+		}
 	}
 
 
@@ -163,7 +188,7 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 	switch (new_animation_name)
 	{
 	case _Default:
-		return new Rapid_Boom(new_group);
+		return new Strobe(new_group);
 	case _Rainbow_Wave:
 		return new Rainbow_Wave(new_group);
 	case _Glitter:
@@ -195,6 +220,20 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 		return new Boom_2(new_group);
 	case _Rapid_Boom:
 		return new Rapid_Boom(new_group);
+	case _Drip_Splosion:
+		return new Dripper(new_group);
+	case _Strobe:
+		return new Strobe(new_group);
+	case _Circle_Strobe:
+		return new Circle_Strobe(new_group);
+	case _Dripper:
+		return new Dripper(new_group);
+	case _Splosion:
+		return new Splosion(new_group);
+	case _Boomer:
+		return new Boomer(new_group);
+	case _Solid_Color_Palette:
+		return new Solid_Color_Palette(new_group);
 	case _Artnet:
 		return new Artnet(new_group);
 	default:

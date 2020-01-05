@@ -24,8 +24,8 @@ public:
 	CRGBPalette16 palette_next = CRGBPalette16(RainbowColors_p);
 	int palette_current_ID = 0;
 	int palette_next_ID = 0;
-	int palette_cycle = 12000;	// =0 means palette does not cycle, >0 signifies the amount of time between palette changes in millis
-	int palette_cycle_speed = 2;	// Speed at which to blend current palette to new palette. Usually beteen 1 and 48
+	int palette_cycle = 6000;	// =0 means palette does not cycle, >0 signifies the amount of time between palette changes in millis
+	int palette_cycle_speed = 6;	// Speed at which to blend current palette to new palette. Usually beteen 1 and 48
 	unsigned long palette_last_time = 0;// The time the palette last switched.
 
 	// TODO: implement palettes

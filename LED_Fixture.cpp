@@ -180,15 +180,48 @@ void LED_Fixture::setStrip(int num_leds_so_far, int new_num_leds)
 template<int n>
 void LED_Fixture::stripLoop(int num_leds_so_far)
 {
-	setStrip<strip_parameters[n - 1].strip_pin>(num_leds_so_far, strip_parameters[n - 1].num_leds);
-	num_leds_so_far += strip_parameters[n - 1].num_leds;
 
-	led_strips.push_back(
-		LED_Strip
-		(n - 1,
-			new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
-			strip_parameters[n - 1])
-	);
+
+	setStrip<strip_parameters[n - 1].strip_pin>(num_leds_so_far, strip_parameters[n - 1].num_leds);
+	
+
+	if (strip_parameters[n - 1].shape == _s_Stalk_Flower)
+	{
+		
+		num_leds_so_far += stalk_flower_leaf.num_leds;
+
+		led_strips.push_back(
+			LED_Strip
+			(2 * (n - 1) + 1,
+				new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
+				stalk_flower_leaf)
+		);
+
+		fixture_num_leds = num_leds_so_far;
+
+		num_leds_so_far += stalk_flower_stalk.num_leds;
+
+		led_strips.push_back(
+			LED_Strip
+			(2 * (n - 1),
+				new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
+				stalk_flower_stalk)
+		);
+	}
+	else
+	{
+		num_leds_so_far += strip_parameters[n - 1].num_leds;
+
+		led_strips.push_back(
+			LED_Strip
+			(n - 1,
+				new CRGBSet(g_leds(fixture_num_leds, num_leds_so_far - 1)),
+				strip_parameters[n - 1])
+		);
+	}
+
+	Serial.print("NUM_LEDS_SO_FAR: ");
+	Serial.println(num_leds_so_far);
 
 	fixture_num_leds = num_leds_so_far;
 
