@@ -188,7 +188,7 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 	switch (new_animation_name)
 	{
 	case _Default:
-		return new Strobe(new_group);
+		return new MyAnime(new_group);
 	case _Rainbow_Wave:
 		return new Rainbow_Wave(new_group);
 	case _Glitter:
@@ -236,6 +236,8 @@ Animation* Animation::create(Animation_Name new_animation_name, LED_Group* new_g
 		return new Solid_Color_Palette(new_group);
 	case _Artnet:
 		return new Artnet(new_group);
+	case _MyAnime:
+		return new MyAnime(new_group);
 	default:
 		return new Crazy_Time(new_group);
 	}

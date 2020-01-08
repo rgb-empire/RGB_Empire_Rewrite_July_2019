@@ -192,6 +192,9 @@
     <ClInclude Include="__vm\.RGB_Empire_Rewrite_July_2019.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyAnime.h">
+      <Filter>4. Animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LED_Arrangement.cpp">
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="Solid_Color_Palette.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAnime.cpp">
+      <Filter>4. Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

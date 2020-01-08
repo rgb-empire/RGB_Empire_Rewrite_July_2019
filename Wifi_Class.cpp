@@ -10,8 +10,8 @@ bool Wifi_Class::connected = false;
 bool Wifi_Class::timeout = false;
 long Wifi_Class::try_again_time = 0;
 
-//char* Wifi_Class::ssid = "Trap_House";
-//char* Wifi_Class::password = "ThIsHoUsEisatrap72";
+//char* Wifi_Class::ssid = "bythebayou";
+//char* Wifi_Class::password = "lisascamp";
 
 char* Wifi_Class::ssid = "ESP_Master";
 char* Wifi_Class::password = "ESP_Secure_Password";

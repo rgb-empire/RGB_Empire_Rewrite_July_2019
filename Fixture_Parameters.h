@@ -24,14 +24,14 @@ constexpr int milli_amps = 300000;		// Maximum power output of the connected pow
 // { strip_pin, num_leds, leds_per_meter, shape, length_in_leds, width_in_leds }
 constexpr Strip_Parameters strip_parameters[num_strips] = 
 {
-	{21,	288,	60,	_s_Linear,	288,	1},
-	{19,	288,	60,	_s_Linear,	288,	1},
-	{18,	288,	60,	_s_Linear,	288,	1},
-	{15,	288,	60,	_s_Linear,	288,	1},
-	{2,		288,	60,	_s_Linear,	288,	1},
-	{0,		288,	60,	_s_Linear,	288,	1},
-	{4,		288,	60,	_s_Linear,	288,	1},
-	{5,		288,	60,	_s_Linear,	288,	1}
+	{21,	164,	144,	_s_Linear,	164,	1},
+	{19,	117,	100,	_s_Linear,	117,	1},
+	{18,	117,	100,	_s_Linear,	117,	1},
+	{15,	117,	100,	_s_Linear,	117,	1},
+	{2,		117,	100,	_s_Linear,	117,	1},
+	{0,		117,	100,	_s_Linear,	117,	1},
+	{4,		117,	100,	_s_Linear,	117,	1},
+	{5,		164,	144,	_s_Linear,	164,	1}
 };
 
 //constexpr Strip_Parameters strip_parameters[num_strips] =

@@ -93,7 +93,7 @@ void Animation_Controller::start_animation()
 {
 	START;
 
-	current_animation = Animation::create(_Drip_Splosion);
+	current_animation = Animation::create(_Default);
 
 	END;
 }

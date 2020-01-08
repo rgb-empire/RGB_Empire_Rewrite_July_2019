@@ -22,5 +22,6 @@
 #include "Splosion.h"
 #include "Dripper.h"
 #include "Solid_Color_Palette.h"
+#include "MyAnime.h"
 
 #include "Artnet.h"

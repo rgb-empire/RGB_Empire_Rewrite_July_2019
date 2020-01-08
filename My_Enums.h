@@ -11,10 +11,11 @@
 #include <FastLED.h>
 #include "Bug.h"
 
-#define NUM_AUTOPLAY_ANIMATIONS 15
+#define NUM_AUTOPLAY_ANIMATIONS 1
 
 enum Animation_Name
 {
+	_MyAnime,
 	_Solid_Color,
 	_Solid_Color_Palette,
 	_Color_Waves,
